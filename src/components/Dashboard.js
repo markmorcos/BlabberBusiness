@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { View, ListView, Text, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  ListView,
+  Text,
+  Image,
+  TouchableOpacity
+} from 'react-native';
 import { connect } from 'react-redux';
 import { getBusinesses } from '../actions';
-import { Card, CardSection, Spinner, Button } from './common';
+import { SearchBar, Card, CardSection, Spinner, Button } from './common';
 import { Actions } from 'react-native-router-flux';
 
 class Dashboard extends Component {
@@ -39,31 +45,39 @@ class Dashboard extends Component {
     );
   }
 
+  renderListView() {
+  	return (
+      <ListView
+      	enableEmptySections
+        renderEmptyListComponent={() => {
+          return (
+            <Card>
+              <CardSection>
+                <Text style={styles.businessStyle}>No businesses yet</Text>
+              </CardSection>
+            </Card>
+          );
+        }}
+        renderHeader={() => <SearchBar />}
+        stickyHeaderIndices={[]}
+        dataSource={this.dataSource}
+        renderRow={this.renderRow}
+      />
+    );
+  }
+
   render() {
-    const { loading, businesses } = this.props;
-    const { spinnerStyle, businessStyle } = styles;
-    if (loading) {
+    if (this.props.loading) {
       return (
-        <View style={spinnerStyle}>
+        <View style={styles.spinnerStyle}>
           <Spinner size="large" />
         </View>
       );
     }
     return (
-      <ListView
-        enableEmptySections
-        renderEmptyListComponent={() => {
-          return (
-            <Card>
-              <CardSection>
-                <Text style={businessStyle}>No businesses yet</Text>
-              </CardSection>
-            </Card>
-          );
-        }}
-        dataSource={this.dataSource}
-        renderRow={this.renderRow}
-      />
+      <View>
+        {this.renderListView()}
+      </View>
     );
   }
 }
@@ -74,7 +88,8 @@ const styles = {
 	},
 	businessStyle: {
 		fontSize: 16,
-		fontWeight: '600'
+		fontWeight: 'bold',
+    backgroundColor: 'transparent'
 	},
 	arrowStyle: {
 		alignSelf: 'center',

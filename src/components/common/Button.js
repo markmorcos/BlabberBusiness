@@ -22,8 +22,9 @@ const styles = {
   textStyle: {
     alignSelf: 'center',
     color: '#FFF',
+    backgroundColor: 'transparent',
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: 'bold',
     paddingTop: 7.5,
     paddingBottom: 7.5
   }

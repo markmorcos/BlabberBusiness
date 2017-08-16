@@ -66,7 +66,7 @@ export const getLoginState = () => {
   return async dispatch => {
     dispatch({ type: LOGIN_STATE });
     const user = await SInfo.getItem('user', {});
-    if (user !== null) {
+    if (user !== null && user !== undefined) {
       dispatch({ type: LOGIN_STATE_SUCCESS });
       Actions.dashboard({ type: 'replace' });
     } else {

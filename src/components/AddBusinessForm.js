@@ -169,6 +169,7 @@ const styles = {
   },
   textStyle: {
     color: 'white',
+    backgroundColor: 'transparent',
     textAlign: 'center',
     marginTop: 10
   },

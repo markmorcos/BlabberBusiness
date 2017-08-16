@@ -38,7 +38,8 @@ const styles = {
 	},
 	textStyle: {
 		fontFamily: 'Montserrat-Regular',
-		color: '#292929'
+		color: '#292929',
+		backgroundColor: 'transparent'
 	}
 }
 

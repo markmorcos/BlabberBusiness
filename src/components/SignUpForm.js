@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ScrollView,
   View,
   Image,
   Text,
@@ -61,7 +62,9 @@ class SignUpForm extends Component {
 
   renderButton() {
     if (this.props.loading) return <Spinner />;
-    return <Button onPress={this.onButtonPress.bind(this)}>REGISTER</Button>;
+    return (
+      <Button onPress={this.onButtonPress.bind(this)}>REGISTER</Button>
+    );
   }
 
   onPropChange(key, value) {
@@ -87,27 +90,29 @@ class SignUpForm extends Component {
     return (
       <Image style={imageStyle} source={require('../assets/sign_up_screen.png')}>
         <View style={containerStyle}>
-          {this.renderPhoto()}
-          {fields.map(field => {
-            return (
-              <Input
-                key={field.name}
-                style={inputStyle}
-                value={this.props[field.name]}
-                onChangeText={this.onPropChange.bind(this, field.name)}
-                placeholder={field.placeholder}
-                textAlign="center"
-                type="dark"
-              />
-            );
-          })}
-          {this.renderButton()}
+          <ScrollView contentContainerStyle={{ width: '60%', alignItems: 'center' }}>
+            {this.renderPhoto()}
+            {fields.map(field => {
+              return (
+                <Input
+                  key={field.name}
+                  style={inputStyle}
+                  value={this.props[field.name]}
+                  onChangeText={this.onPropChange.bind(this, field.name)}
+                  placeholder={field.placeholder}
+                  textAlign="center"
+                  type="dark"
+                />
+              );
+            })}
+            {this.renderButton()}
           <View style={textContainerStyle}>
-            <Text style={textStyle}>Check our </Text>
+             <Text style={textStyle}>Check our </Text>
             <TouchableWithoutFeedback onPress={() => Actions.privacy()}>
               <View><Text style={[textStyle, signUpStyle]}>privacy policy</Text></View>
             </TouchableWithoutFeedback>
           </View>
+          </ScrollView>
         </View>
       </Image>
     );
@@ -124,8 +129,8 @@ const styles = {
     alignItems: 'center'
   },
   containerStyle: {
-    width: '60%',
-    marginBottom: '5%',
+    width: '100%',
+    marginBottom: 20,
     alignItems: 'center'
   },
   addPhotoStyle: {
@@ -154,6 +159,7 @@ const styles = {
   },
   textStyle: {
     color: 'white',
+    backgroundColor: 'transparent',
     textAlign: 'center',
     marginTop: 10
   },

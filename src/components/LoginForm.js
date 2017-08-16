@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableWithoutFeedback } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  View,
+  Image,
+  Text,
+  TouchableWithoutFeedback
+} from 'react-native';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import { connect } from 'react-redux';
 import { propChanged, loginUser } from '../actions';
@@ -32,7 +38,7 @@ class LoginForm extends Component {
     } = styles;
     return (
       <Image style={imageStyle} source={require('../assets/login_screen.png')}>
-        <View style={containerStyle}>
+        <KeyboardAvoidingView style={containerStyle}>
           <Input
             value={this.props.email}
             onChangeText={this.onPropChanged.bind(this, 'email')}
@@ -54,7 +60,7 @@ class LoginForm extends Component {
             </TouchableWithoutFeedback>
             <Text style={textStyle}> now</Text>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Image>
     );
   }
@@ -80,6 +86,7 @@ const styles = {
   },
   textStyle: {
     color: 'white',
+    backgroundColor: 'transparent',
     textAlign: 'center',
     marginTop: 10
   },
