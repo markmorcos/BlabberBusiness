@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  KeyboardAvoidingView,
   ScrollView,
   View,
   Image,
@@ -88,33 +89,38 @@ class SignUpForm extends Component {
       { name: 'password', placeholder: 'Password' }
     ];
     return (
-      <Image style={imageStyle} source={require('../assets/sign_up_screen.png')}>
-        <View style={containerStyle}>
-          <ScrollView contentContainerStyle={{ width: '60%', alignItems: 'center' }}>
-            {this.renderPhoto()}
-            {fields.map(field => {
-              return (
-                <Input
-                  key={field.name}
-                  style={inputStyle}
-                  value={this.props[field.name]}
-                  onChangeText={this.onPropChange.bind(this, field.name)}
-                  placeholder={field.placeholder}
-                  textAlign="center"
-                  type="dark"
-                />
-              );
-            })}
-            {this.renderButton()}
-          <View style={textContainerStyle}>
-             <Text style={textStyle}>Check our </Text>
-            <TouchableWithoutFeedback onPress={() => Actions.privacy()}>
-              <View><Text style={[textStyle, signUpStyle]}>privacy policy</Text></View>
-            </TouchableWithoutFeedback>
+      <KeyboardAvoidingView behavior="padding">
+        <Image style={imageStyle} source={require('../assets/sign_up_screen.png')}>
+          <View style={containerStyle}>
+            <ScrollView
+              bounces={false}
+              contentContainerStyle={{ width: '60%', alignItems: 'center' }}
+            >
+              {this.renderPhoto()}
+              {fields.map(field => {
+                return (
+                  <Input
+                    key={field.name}
+                    style={inputStyle}
+                    value={this.props[field.name]}
+                    onChangeText={this.onPropChange.bind(this, field.name)}
+                    placeholder={field.placeholder}
+                    textAlign="center"
+                    type="dark"
+                  />
+                );
+              })}
+              {this.renderButton()}
+            <View style={textContainerStyle}>
+               <Text style={textStyle}>Check our </Text>
+              <TouchableWithoutFeedback onPress={() => Actions.privacy()}>
+                <View><Text style={[textStyle, signUpStyle]}>privacy policy</Text></View>
+              </TouchableWithoutFeedback>
+            </View>
+            </ScrollView>
           </View>
-          </ScrollView>
-        </View>
-      </Image>
+        </Image>
+      </KeyboardAvoidingView>
     );
   }
 }

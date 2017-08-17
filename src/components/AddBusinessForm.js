@@ -78,7 +78,7 @@ class AddBusinessForm extends Component {
       signUpStyle
     } = styles;
     const {
-    	name,
+    	business,
 	    username,
 	    mobile, 
 	    number,
@@ -90,8 +90,8 @@ class AddBusinessForm extends Component {
       	<CardSection style={containerStyle}>
           {this.renderPhoto()}
           <Input
-            value={name}
-            onChangeText={this.onPropChange.bind(this, 'name')}
+            value={business}
+            onChangeText={this.onPropChange.bind(this, 'business')}
             placeholder="Name"
             type="dark"
             textAlign="left"

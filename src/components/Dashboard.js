@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  KeyboardAvoidingView,
   View,
   ListView,
   Text,
@@ -48,6 +49,7 @@ class Dashboard extends Component {
   renderListView() {
   	return (
       <ListView
+        bounces={false}
       	enableEmptySections
         renderEmptyListComponent={() => {
           return (
@@ -75,9 +77,9 @@ class Dashboard extends Component {
       );
     }
     return (
-      <View>
+      <KeyboardAvoidingView>
         {this.renderListView()}
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

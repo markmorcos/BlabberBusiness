@@ -29,7 +29,8 @@ const styles = {
 		marginTop: 5,
 		marginLeft: 5,
 		marginRight: 5,
-		borderRadius: 25
+		borderRadius: 25,
+		padding: 10
 	},
 	iconStyle: {
 		marginLeft: 5,

@@ -37,31 +37,33 @@ class LoginForm extends Component {
       signUpStyle
     } = styles;
     return (
-      <Image style={imageStyle} source={require('../assets/login_screen.png')}>
-        <KeyboardAvoidingView style={containerStyle}>
-          <Input
-            value={this.props.email}
-            onChangeText={this.onPropChanged.bind(this, 'email')}
-            placeholder="Email"
-            textAlign="center"
-          />
-          <Input
-            value={this.props.password}
-            onChangeText={this.onPropChanged.bind(this, 'password')}
-            placeholder="Password"
-            textAlign="center"
-            secureTextEntry
-          />
-          {this.renderButton()}
-          <View style={textContainerStyle}>
-            <Text style={textStyle}>Don't have an account? </Text>
-            <TouchableWithoutFeedback onPress={() => Actions.signUp()}>
-              <View><Text style={[textStyle, signUpStyle]}>Sign up</Text></View>
-            </TouchableWithoutFeedback>
-            <Text style={textStyle}> now</Text>
+      <KeyboardAvoidingView behavior="padding">
+        <Image style={imageStyle} source={require('../assets/login_screen.png')}>
+          <View style={containerStyle}>
+            <Input
+              value={this.props.email}
+              onChangeText={this.onPropChanged.bind(this, 'email')}
+              placeholder="Email"
+              textAlign="center"
+            />
+            <Input
+              value={this.props.password}
+              onChangeText={this.onPropChanged.bind(this, 'password')}
+              placeholder="Password"
+              textAlign="center"
+              secureTextEntry
+            />
+            {this.renderButton()}
+            <View style={textContainerStyle}>
+              <Text style={textStyle}>Don't have an account? </Text>
+              <TouchableWithoutFeedback onPress={() => Actions.signUp()}>
+                <View><Text style={[textStyle, signUpStyle]}>Sign up</Text></View>
+              </TouchableWithoutFeedback>
+              <Text style={textStyle}> now</Text>
+            </View>
           </View>
-        </KeyboardAvoidingView>
-      </Image>
+        </Image>
+      </KeyboardAvoidingView>
     );
   }
 }
