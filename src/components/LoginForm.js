@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Platform,
   KeyboardAvoidingView,
   View,
   Image,
@@ -10,6 +11,8 @@ import { Card, CardSection, Input, Button, Spinner } from './common';
 import { connect } from 'react-redux';
 import { propChanged, loginUser } from '../actions';
 import { Actions } from 'react-native-router-flux';
+
+const { OS } = Platform;
 
 class LoginForm extends Component {
   onButtonPress() {
@@ -37,7 +40,7 @@ class LoginForm extends Component {
       signUpStyle
     } = styles;
     return (
-      <KeyboardAvoidingView behavior="padding">
+      <KeyboardAvoidingView behavior={OS === 'ios' ? "padding" : null}>
         <Image style={imageStyle} source={require('../assets/login_screen.png')}>
           <View style={containerStyle}>
             <Input

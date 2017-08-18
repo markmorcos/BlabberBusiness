@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Platform,
   KeyboardAvoidingView,
   ScrollView,
   View,
@@ -14,6 +15,9 @@ import { connect } from 'react-redux';
 import { photoChanged, propChanged, registerUser } from '../actions';
 import { Actions } from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-picker';
+import ExtraDimensions from 'react-native-extra-dimensions-android';
+
+const { OS } = Platform;
 
 class SignUpForm extends Component {
   onPhotoPress() {
@@ -64,7 +68,10 @@ class SignUpForm extends Component {
   renderButton() {
     if (this.props.loading) return <Spinner />;
     return (
-      <Button onPress={this.onButtonPress.bind(this)}>REGISTER</Button>
+      <Button
+        style={{ width: '60%', alignSelf: 'center' }}
+        onPress={this.onButtonPress.bind(this)}
+      >REGISTER</Button>
     );
   }
 
@@ -89,12 +96,13 @@ class SignUpForm extends Component {
       { name: 'password', placeholder: 'Password' }
     ];
     return (
-      <KeyboardAvoidingView behavior="padding">
+      <KeyboardAvoidingView behavior={OS === 'ios' ? "padding" : null}>
         <Image style={imageStyle} source={require('../assets/sign_up_screen.png')}>
           <View style={containerStyle}>
             <ScrollView
               bounces={false}
-              contentContainerStyle={{ width: '60%', alignItems: 'center' }}
+              style={{ width: '100%' }}
+              contentContainerStyle={{ width: '100%', alignItems: 'center' }}
             >
               {this.renderPhoto()}
               {fields.map(field => {
@@ -112,11 +120,13 @@ class SignUpForm extends Component {
               })}
               {this.renderButton()}
             <View style={textContainerStyle}>
-               <Text style={textStyle}>Check our </Text>
-              <TouchableWithoutFeedback onPress={() => Actions.privacy()}>
-                <View><Text style={[textStyle, signUpStyle]}>privacy policy</Text></View>
-              </TouchableWithoutFeedback>
-            </View>
+              <Text style={textStyle}>Check our </Text>
+                <TouchableWithoutFeedback onPress={() => Actions.privacy()}>
+                  <View>
+                    <Text style={[textStyle, signUpStyle]}>privacy policy</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
             </ScrollView>
           </View>
         </Image>
@@ -136,7 +146,12 @@ const styles = {
   },
   containerStyle: {
     width: '100%',
-    marginBottom: 20,
+    marginBottom:
+      ExtraDimensions.get('SOFT_MENU_BAR_HEIGHT')
+      ?
+      70 - ExtraDimensions.get('SOFT_MENU_BAR_HEIGHT')
+      :
+      45,
     alignItems: 'center'
   },
   addPhotoStyle: {
@@ -156,6 +171,7 @@ const styles = {
     borderRadius: 50
   },
   inputStyle: {
+    width: '60%',
     marginBottom: 5
   },
   textContainerStyle: {

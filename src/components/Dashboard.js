@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Platform,
   KeyboardAvoidingView,
   View,
   ListView,
@@ -11,6 +12,8 @@ import { connect } from 'react-redux';
 import { getBusinesses } from '../actions';
 import { SearchBar, Card, CardSection, Spinner, Button } from './common';
 import { Actions } from 'react-native-router-flux';
+
+const { OS } = Platform;
 
 class Dashboard extends Component {
   componentWillMount() {
@@ -77,7 +80,7 @@ class Dashboard extends Component {
       );
     }
     return (
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView behavior={OS === 'ios' ? "padding" : null}>
         {this.renderListView()}
       </KeyboardAvoidingView>
     );

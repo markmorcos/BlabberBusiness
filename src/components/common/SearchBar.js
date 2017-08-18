@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Image, TextInput } from 'react-native';
+import { Platform, View, Image, TextInput } from 'react-native';
+
+const { OS } = Platform;
 
 const SearchBar = () => {
 	const { barStyle, iconStyle, inputStyle } = styles;
@@ -30,10 +32,15 @@ const styles = {
 		marginLeft: 5,
 		marginRight: 5,
 		borderRadius: 25,
-		padding: 10
+		padding: OS === 'ios' ? 10 : 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 0,
+    elevation: 4
 	},
 	iconStyle: {
-		marginLeft: 5,
+		marginLeft: 10,
 		marginRight: 5
 	},
 	inputStyle: {

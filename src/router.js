@@ -42,7 +42,7 @@ class RouterComponent extends Component {
               component={Dashboard}
               title="Blabber for Businesses"
               onLeft={() => this.props.logoutUser()}
-              leftButtonImage={require('./assets/logout_icon.jpg')}
+              leftButtonImage={require('./assets/logout_icon.png')}
               onRight={() => Actions.addBusiness()}
               rightButtonImage={require('./assets/add_icon.png')}
             />
