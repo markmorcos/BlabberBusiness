@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView,
   View,
   ListView,
+  RefreshControl,
   Text,
   Image,
   TouchableOpacity
@@ -12,6 +13,7 @@ import { connect } from 'react-redux';
 import { getBusinesses } from '../actions';
 import { SearchBar, Card, CardSection, Spinner, Button } from './common';
 import { Actions } from 'react-native-router-flux';
+import BusinessItem from './BusinessItem';
 
 const { OS } = Platform;
 
@@ -34,24 +36,28 @@ class Dashboard extends Component {
   }
 
   renderRow(business) {
-  	const { businessStyle, arrowStyle } = styles;
-    return (
-    	<TouchableOpacity onPress={() => Actions.editBusiness({ id: business.id })}>
-	    	<Card>
-	    		<CardSection>
-	    			<Text style={businessStyle}>{business.name}</Text>
-	    			<View style={arrowStyle}>
-	    				<Image source={require('../assets/right_arrow.jpg')} />
-	    			</View>
-	    		</CardSection>
-	    	</Card>
-    	</TouchableOpacity>
-    );
+    return <BusinessItem business={business} />;
+  }
+
+  onRefresh() {
+    const { getBusinesses, businesses } = this.props;
+    getBusinesses();
+    this.createDataSource(this.props);
   }
 
   renderListView() {
   	return (
       <ListView
+        style={{
+          backgroundColor: 'white',
+          height: '99%',
+          marginLeft: 5,
+          marginRight: 5,
+          paddingTop: 5,
+          marginBottom: 5,
+          borderBottomLeftRadius: 15,
+          borderBottomRightRadius: 15
+        }}
         bounces={false}
       	enableEmptySections
         renderEmptyListComponent={() => {
@@ -67,6 +73,12 @@ class Dashboard extends Component {
         stickyHeaderIndices={[]}
         dataSource={this.dataSource}
         renderRow={this.renderRow}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.props.loading}
+            onRefresh={this.onRefresh.bind(this)}
+          />
+        }
       />
     );
   }
@@ -90,16 +102,6 @@ class Dashboard extends Component {
 const styles = {
 	spinnerStyle: {
 		padding: 15
-	},
-	businessStyle: {
-		fontSize: 16,
-		fontWeight: 'bold',
-    backgroundColor: 'transparent'
-	},
-	arrowStyle: {
-		alignSelf: 'center',
-		position: 'absolute',
-		right: 15
 	}
 };
 

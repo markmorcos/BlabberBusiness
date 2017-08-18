@@ -28,20 +28,24 @@ const styles = {
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		backgroundColor: 'white',
-		marginTop: 5,
+		marginTop: 10,
+		marginBottom: 5,
 		marginLeft: 5,
 		marginRight: 5,
 		borderRadius: 25,
 		padding: OS === 'ios' ? 10 : 0,
     shadowColor: '#000',
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 0,
+    shadowRadius: 25,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
     elevation: 4
 	},
 	iconStyle: {
 		marginLeft: 10,
-		marginRight: 5
+		marginRight: 5,
+		width: 20,
+		height: 20
 	},
 	inputStyle: {
 		flex: 1
