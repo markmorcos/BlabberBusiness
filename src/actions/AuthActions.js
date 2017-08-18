@@ -75,9 +75,17 @@ export const getLoginState = () => {
   };
 };
 
-const logoutUserFail = (dispatch, error) => {
+const logoutUserSuccess = async dispatch => {
+  dispatch({ type: LOGOUT_USER_SUCCESS });
+  await SInfo.deleteItem('user', {});
+  Actions.login({ type: 'replace' });
+};
+
+const logoutUserFail = async (dispatch, error) => {
   dispatch({ type: LOGOUT_USER_FAIL, error });
   Toast.show(error);
+  await SInfo.deleteItem('user', {});
+  Actions.login({ type: 'replace' });
 };
 
 export const logoutUser = () => {
@@ -97,9 +105,7 @@ export const logoutUser = () => {
               if (response.data.status) {
                 return logoutUserFail(dispatch, response.data.errors);
               }
-              dispatch({ type: LOGOUT_USER_SUCCESS });
-              SInfo.deleteItem('user', {})
-              .then(() => Actions.login({ type: 'replace' }))
+              return logoutUserSuccess(dispatch);
             })
             .catch(() => logoutUserFail(dispatch, 'Logout user failed'));
           }
