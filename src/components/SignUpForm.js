@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import { connect } from 'react-redux';
-import { photoChanged, propChanged, registerUser } from '../actions';
+import { propChanged, registerUser } from '../actions';
 import { Actions } from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-picker';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
@@ -23,7 +23,7 @@ class SignUpForm extends Component {
   onPhotoPress() {
     ImagePicker.showImagePicker({ title: 'Add a photo' }, response => {
       if (!response.didCancel) {
-        this.props.photoChanged(response);
+        this.props.propChanged('media', response);
       }
     });
   }
@@ -204,8 +204,4 @@ const mapStateToProps = ({ auth }) => {
   return { media, name, username, mobile, email, password, error, loading };
 };
 
-export default connect(mapStateToProps, {
-  photoChanged,
-  propChanged,
-  registerUser
-})(SignUpForm);
+export default connect(mapStateToProps, { propChanged, registerUser })(SignUpForm);

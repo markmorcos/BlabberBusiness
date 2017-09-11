@@ -1,20 +1,24 @@
 import React from 'react';
 import { Platform, View, Image, TextInput } from 'react-native';
+import { connect } from 'react-redux';
+import { filterBusinesses } from '../actions';
 
 const { OS } = Platform;
 
-const SearchBar = () => {
+const SearchBar = ({ keyword, filterBusinesses }) => {
 	const { barStyle, iconStyle, inputStyle } = styles;
   return (
   	<View style={barStyle}>
 	    <Image
 	      style={iconStyle}
-	      source={require('../../assets/search_icon.png')}
+	      source={require('../assets/search_icon.png')}
 	    />
 	    <TextInput
 	      style={inputStyle}
 	      placeholder="Search for business"
 	      underlineColorAndroid="transparent"
+	      value={keyword}
+	      onChangeText={keyword => filterBusinesses(keyword)}
 	    />
 	  </View>
 	);
@@ -52,4 +56,9 @@ const styles = {
 	}
 };
 
-export { SearchBar };
+const mapStateToProps = ({ business }) => {
+	const { keyword } = business;
+  return { keyword };
+};
+
+export default connect(mapStateToProps, { filterBusinesses })(SearchBar);

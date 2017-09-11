@@ -9,7 +9,8 @@ const Input = ({
     textAlign,
     onChangeText,
     placeholder,
-    secureTextEntry
+    secureTextEntry,
+    multiline
   }) => {
   const { containerStyle, labelStyle, inputStyle } = styles;
   const color = type === 'dark' ? 'black' : 'white';
@@ -25,6 +26,7 @@ const Input = ({
         autoCorrect={false}
         value={value}
         onChangeText={onChangeText}
+        multiline={multiline}
       />
     </View>
   );

@@ -4,16 +4,14 @@ import {
   KeyboardAvoidingView,
   View,
   ListView,
-  RefreshControl,
-  Text,
-  Image,
-  TouchableOpacity
+  RefreshControl
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getBusinesses } from '../actions';
-import { SearchBar, Card, CardSection, Spinner, Button } from './common';
 import { Actions } from 'react-native-router-flux';
 import BusinessItem from './BusinessItem';
+import SearchBar from './SearchBar';
+import NavigationBar from './NavigationBar';
 
 const { OS } = Platform;
 
@@ -28,11 +26,13 @@ class Dashboard extends Component {
     this.createDataSource(nextProps);
   }
 
-  createDataSource({ businesses }) {
+  createDataSource({ keyword, businesses }) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
-    this.dataSource = ds.cloneWithRows(businesses);
+    this.dataSource = ds.cloneWithRows(businesses.filter(business => {
+      return business.name.toLowerCase().indexOf(keyword.toLowerCase()) != -1;
+    }));
   }
 
   renderRow(business) {
@@ -46,51 +46,30 @@ class Dashboard extends Component {
   }
 
   renderListView() {
+    const { containerStyle, listViewStyle } = styles;
   	return (
-      <ListView
-        style={{
-          backgroundColor: 'white',
-          height: '99%',
-          marginLeft: 5,
-          marginRight: 5,
-          paddingTop: 5,
-          marginBottom: 5,
-          borderBottomLeftRadius: 15,
-          borderBottomRightRadius: 15
-        }}
-        bounces={false}
-      	enableEmptySections
-        renderEmptyListComponent={() => {
-          return (
-            <Card>
-              <CardSection>
-                <Text style={styles.businessStyle}>No businesses yet</Text>
-              </CardSection>
-            </Card>
-          );
-        }}
-        renderHeader={() => <SearchBar />}
-        stickyHeaderIndices={[]}
-        dataSource={this.dataSource}
-        renderRow={this.renderRow}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.props.loading}
-            onRefresh={this.onRefresh.bind(this)}
-          />
-        }
-      />
+      <View style={containerStyle}>
+        <ListView
+          style={listViewStyle}
+          bounces={false}
+        	enableEmptySections
+          renderHeader={() => <SearchBar />}
+          stickyHeaderIndices={[]}
+          dataSource={this.dataSource}
+          renderRow={this.renderRow}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.loading}
+              onRefresh={this.onRefresh.bind(this)}
+            />
+          }
+        />
+        <NavigationBar />
+      </View>
     );
   }
 
   render() {
-    if (this.props.loading) {
-      return (
-        <View style={styles.spinnerStyle}>
-          <Spinner size="large" />
-        </View>
-      );
-    }
     return (
       <KeyboardAvoidingView behavior={OS === 'ios' ? "padding" : null}>
         {this.renderListView()}
@@ -100,14 +79,29 @@ class Dashboard extends Component {
 }
 
 const styles = {
-	spinnerStyle: {
-		padding: 15
-	}
+  containerStyle: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  listViewStyle: {
+    backgroundColor: 'white',
+    width: '100%',
+    height: '100%',
+    marginLeft: 5,
+    marginRight: 5,
+    paddingTop: 5,
+    marginBottom: 5,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15
+  }
 };
 
-const mapStateToProps = state => {
-	const { businesses, error, loading } = state.businesses;
-  return { businesses, error, loading };
+const mapStateToProps = ({ business }) => {
+	const { businesses, error, loading, keyword } = business;
+  return { businesses, error, loading, keyword };
 };
 
 export default connect(mapStateToProps, { getBusinesses })(Dashboard);

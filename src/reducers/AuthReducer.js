@@ -1,5 +1,4 @@
 import {
-  PHOTO_CHANGED,
   PROP_CHANGED,
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
@@ -31,8 +30,6 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case PHOTO_CHANGED:
-      return { ...state, media: action.payload };
     case PROP_CHANGED:
       return { ...state, [action.payload.key]: action.payload.value };
     case EMAIL_CHANGED:

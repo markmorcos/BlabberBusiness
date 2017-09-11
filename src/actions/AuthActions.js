@@ -1,6 +1,4 @@
 import {
-  PHOTO_CHANGED,
-  PROP_CHANGED,
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER,
@@ -26,14 +24,6 @@ const api = axios.create({
   baseURL: 'http://myblabber.com/be-staging/api/'
 });
 
-export const photoChanged = response => {
-  return { type: PHOTO_CHANGED, payload: response };
-};
-
-export const propChanged = (key, value) => {
-  return { type: PROP_CHANGED, payload: { key, value } };
-};
-
 const loginUserSuccess = (dispatch, user) => {
   dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
   SInfo.setItem('user', JSON.stringify(user), {});
@@ -49,7 +39,7 @@ const loginUserFail = (dispatch, error) => {
 export const loginUser = ({ email, password }) => {
   return dispatch => {
     dispatch({ type: LOGIN_USER });
-    api.post('sign-in', { email, password })
+    api.post('sign-in', { email, password, device_IMEI: '' })
     .then(response => {
       if (response.data.status) {
         return loginUserFail(dispatch, response.data.errors);
@@ -78,14 +68,14 @@ export const getLoginState = () => {
 const logoutUserSuccess = async dispatch => {
   dispatch({ type: LOGOUT_USER_SUCCESS });
   await SInfo.deleteItem('user', {});
-  Actions.login({ type: 'replace' });
+  Actions.login({ type: 'reset' });
 };
 
 const logoutUserFail = async (dispatch, error) => {
   dispatch({ type: LOGOUT_USER_FAIL, error });
   Toast.show(error);
   await SInfo.deleteItem('user', {});
-  Actions.login({ type: 'replace' });
+  Actions.login({ type: 'reset' });
 };
 
 export const logoutUser = () => {
