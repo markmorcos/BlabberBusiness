@@ -21,11 +21,10 @@ const BusinessItem = ({ business }) => {
 const styles = {
   containerStyle: {
     borderRadius: 15,
-    shadowColor: '#000',
-    shadowRadius: 15,
+    shadowColor: '#7c7c7c',
+    shadowRadius: 2,
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
+    shadowOpacity: 0.4,
     elevation: 2,
     marginLeft: 5,
     marginRight: 5,

@@ -11,7 +11,13 @@ import {
   GET_CATEGORIES_FAIL,
   GET_SUBCATEGORIES,
   GET_SUBCATEGORIES_SUCCESS,
-  GET_SUBCATEGORIES_FAIL
+  GET_SUBCATEGORIES_FAIL,
+  GET_FLAGS,
+  GET_FLAGS_SUCCESS,
+  GET_FLAGS_FAIL,
+  GET_INTERESTS,
+  GET_INTERESTS_SUCCESS,
+  GET_INTERESTS_FAIL
 } from './types';
 import axios from 'axios';
 import Toast from 'react-native-simple-toast';
@@ -22,7 +28,6 @@ const api = axios.create({
 
 const getCountriesSuccess = (dispatch, countries) => {
   dispatch({ type: GET_COUNTRIES_SUCCESS, payload: countries });
-  dispatch(getCities(countries[0].id));
 };
 
 const getCountriesFail = (dispatch, error) => {
@@ -69,7 +74,6 @@ export const getCities = countryId => {
 
 const getCategoriesSuccess = (dispatch, categories) => {
   dispatch({ type: GET_CATEGORIES_SUCCESS, payload: categories });
-  dispatch(getSubcategories(categories[0].id));
 };
 
 const getCategoriesFail = (dispatch, error) => {
@@ -101,6 +105,7 @@ const getSubcategoriesFail = (dispatch, error) => {
 };
 
 export const getSubcategories = categoryId => {
+  console.log("response");
   return dispatch => {
     dispatch({ type: GET_SUBCATEGORIES });
     api.get(`get-sub-categories?category_id=${categoryId}`)
@@ -111,5 +116,51 @@ export const getSubcategories = categoryId => {
       return getSubcategoriesSuccess(dispatch, response.data.categories);
     })  
     .catch(() => getSubcategoriesFail(dispatch, 'Get subcategories failed'));
+  };
+};
+
+const getFlagsSuccess = (dispatch, subcategories) => {
+  dispatch({ type: GET_FLAGS_SUCCESS, payload: subcategories });
+};
+
+const getFlagsFail = (dispatch, error) => {
+  dispatch({ type: GET_FLAGS_FAIL, payload: error });
+  Toast.show(error);
+};
+
+export const getFlags = () => {
+  return dispatch => {
+    dispatch({ type: GET_FLAGS });
+    api.get('get-flags')
+    .then(response => {
+      if (response.data.status) {
+        return getFlagsFail(dispatch, response.data.errors);
+      }
+      return getFlagsSuccess(dispatch, response.data.flags);
+    })  
+    .catch(() => getFlagsFail(dispatch, 'Get flags failed'));
+  };
+};
+
+const getInterestsSuccess = (dispatch, interests) => {
+  dispatch({ type: GET_INTERESTS_SUCCESS, payload: interests });
+};
+
+const getInterestsFail = (dispatch, error) => {
+  dispatch({ type: GET_INTERESTS_FAIL, payload: error });
+  Toast.show(error);
+};
+
+export const getInterests = () => {
+  return dispatch => {
+    dispatch({ type: GET_INTERESTS });
+    api.get('get-interests')
+    .then(response => {
+      if (response.data.status) {
+        return getInterestsFail(dispatch, response.data.errors);
+      }
+      return getInterestsSuccess(dispatch, response.data.interests);
+    })  
+    .catch(() => getInterestsFail(dispatch, 'Get interests failed'));
   };
 };

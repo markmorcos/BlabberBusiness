@@ -11,14 +11,22 @@ import {
   GET_CATEGORIES_FAIL,
   GET_SUBCATEGORIES,
   GET_SUBCATEGORIES_SUCCESS,
-  GET_SUBCATEGORIES_FAIL
+  GET_SUBCATEGORIES_FAIL,
+  GET_FLAGS,
+  GET_FLAGS_SUCCESS,
+  GET_FLAGS_FAIL,
+  GET_INTERESTS,
+  GET_INTERESTS_SUCCESS,
+  GET_INTERESTS_FAIL
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  categories: [],
-  subcategories: [],
   countries: [],
   cities: [],
+  categories: [],
+  subcategories: [],
+  flags: [],
+  interests: [],
   media: '',
   name: '',
   nameAr: '',
@@ -37,6 +45,8 @@ const INITIAL_STATE = {
   subcategory: '',
   operationHours: '',
   price: '',
+  selectedFlags: [],
+  selectedInterests: [],
   error: '',
   loading: false
 };
@@ -52,7 +62,7 @@ export default (state = INITIAL_STATE, action) => {
     case GET_COUNTRIES_FAIL:
       return { ...state, error: action.payload };
     case GET_CITIES:
-      return { ...state, cities: [], error: '' };
+      return { ...state, cities: [], city: '', error: '' };
     case GET_CITIES_SUCCESS:
       return { ...state, cities: action.payload, error: '' };
     case GET_CITIES_FAIL:
@@ -64,10 +74,22 @@ export default (state = INITIAL_STATE, action) => {
     case GET_CATEGORIES_FAIL:
       return { ...state, error: action.payload };
     case GET_SUBCATEGORIES:
-      return { ...state, subcategories: [], error: '' };
+      return { ...state, subcategories: [], subcategory: '', error: '' };
     case GET_SUBCATEGORIES_SUCCESS:
       return { ...state, subcategories: action.payload, error: '' };
     case GET_SUBCATEGORIES_FAIL:
+      return { ...state, error: action.payload };
+    case GET_FLAGS:
+      return { ...state, error: '' };
+    case GET_FLAGS_SUCCESS:
+      return { ...state, flags: action.payload, error: '' };
+    case GET_FLAGS_FAIL:
+      return { ...state, error: action.payload };
+    case GET_INTERESTS:
+      return { ...state, error: '' };
+    case GET_INTERESTS_SUCCESS:
+      return { ...state, interests: action.payload, error: '' };
+    case GET_INTERESTS_FAIL:
       return { ...state, error: action.payload };
     default:
       return state;

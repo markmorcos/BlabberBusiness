@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {
+  Platform,
+  KeyboardAvoidingView,
   ScrollView,
   View,
   Image,
@@ -17,22 +19,34 @@ import {
   getCities,
   getCategories,
   getSubcategories,
+  getFlags,
+  getInterests,
   createBusiness
 } from '../actions';
 import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { Select, Option } from 'react-native-select-list';
+import Modal from 'react-native-modalbox';
+import SelectMultiple from 'react-native-select-multiple';
+import MapView from 'react-native-maps';
+
+const { OS } = Platform;
 
 class AddBusinessForm extends Component {
   state = {
     fromTimePickerVisible: false,
-    fromTime: new Date(),
+    fromTime: new Date(1970, 1, 1, 0, 0, 0, 0),
     toTimePickerVisible: false,
-    toTime: new Date()
+    toTime: new Date(1970, 1, 1, 0, 0, 0, 0),
+    flagsModalVisible: false,
+    interestsModalVisible: false
   };
 
   componentWillMount() {
-    this.props.getCategories();
     this.props.getCountries();
+    this.props.getCategories();
+    this.props.getFlags();
+    this.props.getInterests();
   }
 
   onPhotoPress() {
@@ -82,25 +96,25 @@ class AddBusinessForm extends Component {
 
   renderCountries() {
     return this.props.countries.map(country => {
-      return <Picker.Item key={country.id} label={country.name} value={country.id} />;
+      return <Option key={country.id} value={country.id}>{country.name}</Option>;
     });
   }
 
   renderCities() {
     return this.props.cities.map(city => {
-      return <Picker.Item key={city.id} label={city.name} value={city.id} />;
+      return <Option key={city.id} value={city.id}>{city.name}</Option>;
     });
   }
 
   renderCategories() {
     return this.props.categories.map(category => {
-      return <Picker.Item key={category.id} label={category.name} value={category.id} />;
+      return <Option key={category.id} value={category.id}>{category.name}</Option>;
     });
   }
 
   renderSubcategories() {
     return this.props.subcategories.map(subcategory => {
-      return <Picker.Item key={subcategory.id} label={subcategory.name} value={subcategory.id} />;
+      return <Option key={subcategory.id} value={subcategory.id}>{subcategory.name}</Option>;
     });
   }
 
@@ -146,9 +160,13 @@ class AddBusinessForm extends Component {
       photoStyle,
       textContainerStyle,
       textStyle,
+      selectStyle,
+      timeStyle,
       signUpStyle
     } = styles;
     const {
+      flags,
+      interests,
       media,
       location,
       country,
@@ -156,14 +174,23 @@ class AddBusinessForm extends Component {
       category,
       subcategory,
       operationHours,
-      price
+      price,
+      selectedFlags,
+      selectedInterests
 	  } = this.props;
     const {
       fromTimePickerVisible,
       fromTime,
       toTimePickerVisible,
-      toTime
+      toTime,
+      flagsModalVisible,
+      interestsModalVisible
     } = this.state;
+    const {
+      flagsModal,
+      interestsModal,
+      locationModal
+    } = this.refs;
     const fields = [
       { name: 'name', placeholder: 'Name' },
       { name: 'nameAr', placeholder: 'Arabic name' },
@@ -176,112 +203,168 @@ class AddBusinessForm extends Component {
       { name: 'descriptionAr', placeholder: 'Arabic description', multiline: true }
     ];
     return (
-      <ScrollView style={scrollViewStyle}>
-        <Card style={imageStyle}>
-          <CardSection style={containerStyle}>
-            {this.renderPhoto()}
-            {fields.map(field => {
-              return (
-                <Input
-                  key={field.name}
-                  value={this.props[field.name]}
-                  onChangeText={this.onPropChange.bind(this, field.name)}
-                  placeholder={field.placeholder}
-                  type="dark"
-                  textAlign="left"
-                  multiline={field.multiline}
+      <KeyboardAvoidingView behavior={OS === 'ios' ? "padding" : null}>
+        <ScrollView style={scrollViewStyle}>
+          <Card style={imageStyle}>
+            <CardSection style={containerStyle}>
+              {this.renderPhoto()}
+              {fields.map(field => {
+                return (
+                  <Input
+                    key={field.name}
+                    value={this.props[field.name]}
+                    onChangeText={this.onPropChange.bind(this, field.name)}
+                    placeholder={field.placeholder}
+                    type="dark"
+                    textAlign="left"
+                    multiline={field.multiline}
+                  />
+                );
+              })}
+              <Select
+                selectStyle={selectStyle}
+                selectedValue={country}
+                onSelect={(value, text) => this.onCountryChange(value)}
+                default="Choose country"
+                caret="down"
+                caretSize={10}
+                caretColor="#797979"
+              >
+                {this.renderCountries()}
+              </Select>
+              <Select
+                selectStyle={selectStyle}
+                selectedValue={city}
+                onSelect={(value, text) => this.onPropChange('city', value)}
+                default="Choose city"
+                caret="down"
+                caretSize={10}
+                caretColor="#797979"
+              >
+                {this.renderCities()}
+              </Select>
+              <Select
+                selectStyle={selectStyle}
+                selectedValue={category}
+                onSelect={(value, text) => this.onCategoryChange(value)}
+                default="Choose category"
+                caret="down"
+                caretSize={10}
+                caretColor="#797979"
+              >
+                {this.renderCategories()}
+              </Select>
+              <Select
+                selectStyle={selectStyle}
+                selectedValue={subcategory}
+                onSelect={(value, text) => this.onPropChange('subcategory', value)}
+                default="Choose subcategory"
+                caret="down"
+                caretSize={10}
+                caretColor="#797979"
+              >
+                {this.renderSubcategories()}
+              </Select>
+              <Select
+                selectStyle={selectStyle}
+                selectedValue={price}
+                onSelect={(value, text) => this.onPropChange('price', value)}
+                default="Choose price range"
+                caret="down"
+                caretSize={10}
+                caretColor="#797979"
+              >
+                {[1, 2, 3, 4, 5].map(i => <Option key={i} value={i}>{i}</Option>)}
+              </Select>
+              <View style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 10
+              }}>
+                <Text style={{ flex: 1 }}>Operation hours</Text>
+                <TouchableOpacity
+                  style={timeStyle}
+                  onPress={() => this.setState({ fromTimePickerVisible: true })}
+                >
+                  <Text>{this.format(fromTime)}</Text>
+                </TouchableOpacity>
+                <Text> : </Text>
+                <TouchableOpacity
+                  style={timeStyle}
+                  onPress={() => this.setState({ toTimePickerVisible: true })}
+                >
+                  <Text>{this.format(toTime)}</Text>
+                </TouchableOpacity>
+                <DateTimePicker
+                  isVisible={fromTimePickerVisible}
+                  onConfirm={time => this.handleFromPickerConfirm(time)}
+                  onCancel={() => this.setState({ fromTimePickerVisible: false })}
+                  mode="time"
+                  is24Hour={false}
+                  date={fromTime}
                 />
-              );
+                <DateTimePicker
+                  isVisible={toTimePickerVisible}
+                  onConfirm={time => this.handleToPickerConfirm(time)}
+                  onCancel={() => this.setState({ toTimePickerVisible: false })}
+                  mode="time"
+                  is24Hour={false}
+                  date={toTime}
+                />
+              </View>
+              <TouchableOpacity
+                style={timeStyle}
+                onPress={() => flagsModal.open()}
+              >
+                <Text>Choose flags ({selectedFlags.length} selected)</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={timeStyle}
+                onPress={() => interestsModal.open()}
+              >
+                <Text>Choose interests ({selectedInterests.length} selected)</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={timeStyle}
+                onPress={() => locationModal.open()}
+              >
+                <Text>Choose location</Text>
+              </TouchableOpacity>
+              {this.renderButton()}
+            </CardSection>
+          </Card>
+        </ScrollView>
+        <Modal ref="flagsModal" style={{ height: '50%' }} backdrop>
+          <SelectMultiple
+            items={flags.map(flag => {
+              return { label: flag.name, value: flag.id };
             })}
-            <Picker
-              style={{ width: '100%' }}
-              selectedValue={country}
-              onValueChange={(value, index) => this.onCountryChange(value)}
-            >
-              <Picker.Item key="0" label="(Choose country)" value="0" />
-              {this.renderCountries()}
-            </Picker>
-            <Picker
-              style={{ width: '100%' }}
-              selectedValue={city}
-              onValueChange={(value, index) => this.onPropChange('city', value)}
-            >
-              <Picker.Item key="0" label="(Choose city)" value="0" />
-              {this.renderCities()}
-            </Picker>
-            <Picker
-              style={{ width: '100%' }}
-              selectedValue={category}
-              onValueChange={(value, index) => this.onCategoryChange(value)}
-            >
-              <Picker.Item key="0" label="(Choose category)" value="0" />
-              {this.renderCategories()}
-            </Picker>
-            <Picker
-              style={{ width: '100%' }}
-              selectedValue={subcategory}
-              onValueChange={(value, index) => this.onPropChange('subcategory', value)}
-            >
-              <Picker.Item key="0" label="(Choose subcategory)" value="0" />
-              {this.renderSubcategories()}
-            </Picker>
-            <Picker
-              style={{ width: '100%' }}
-              selectedValue={price}
-              onValueChange={(value, index) => this.onPropChange('price', value)}
-            >
-              <Picker.Item key="0" label="(Choose price range)" value="0" />
-              <Picker.Item key="1" label="1" value="1" />
-              <Picker.Item key="2" label="2" value="2" />
-              <Picker.Item key="3" label="3" value="3" />
-              <Picker.Item key="4" label="4" value="4" />
-              <Picker.Item key="5" label="5" value="5" />
-              {this.renderSubcategories()}
-            </Picker>
-            <View style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 10,
-              marginBottom: 10
-            }}>
-              <Text style={{ flex: 1 }}>Operation hours</Text>
-              <TouchableOpacity
-                style={{ padding: 5, borderRadius: 10, backgroundColor: '#f9f9f9' }}
-                onPress={() => this.setState({ fromTimePickerVisible: true })}
-              >
-                <Text>{this.format(fromTime)}</Text>
-              </TouchableOpacity>
-              <Text> : </Text>
-              <TouchableOpacity
-                style={{ padding: 5, borderRadius: 10, backgroundColor: '#f9f9f9' }}
-                onPress={() => this.setState({ toTimePickerVisible: true })}
-              >
-                <Text>{this.format(toTime)}</Text>
-              </TouchableOpacity>
-            </View>
-            <DateTimePicker
-              isVisible={fromTimePickerVisible}
-              onConfirm={time => this.handleFromPickerConfirm(time)}
-              onCancel={() => this.setState({ fromTimePickerVisible: false })}
-              mode="time"
-              is24Hour={false}
-              date={fromTime}
-            />
-            <DateTimePicker
-              isVisible={toTimePickerVisible}
-              onConfirm={time => this.handleToPickerConfirm(time)}
-              onCancel={() => this.setState({ toTimePickerVisible: false })}
-              mode="time"
-              is24Hour={false}
-              date={toTime}
-            />
-            {/* flags, interests */}
-            {/* location */}
-            {this.renderButton()}
-          </CardSection>
-        </Card>
-      </ScrollView>
+            selectedItems={selectedFlags}
+            onSelectionsChange={selectedFlags => this.onPropChange('selectedFlags', selectedFlags)}
+          />
+        </Modal>
+        <Modal ref="interestsModal" style={{ height: '50%' }} backdrop>
+          <SelectMultiple
+            items={interests.map(interest => {
+              return { label: interest.name, value: interest.id };
+            })}
+            selectedItems={selectedInterests}
+            onSelectionsChange={selectedInterests => this.onPropChange('selectedInterests', selectedInterests)}
+          />
+        </Modal>
+        <Modal ref="locationModal" style={{ height: '50%' }} backdrop swipeToClose={false}>
+          <MapView
+            style={{ width: '100%', height: '100%' }}
+            initialRegion={{
+              latitude: 30.042,
+              longitude: 31.252,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+        </Modal>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -326,6 +409,22 @@ const styles = {
     textAlign: 'center',
     marginTop: 10
   },
+  selectStyle: {
+    borderRadius: 10,
+    backgroundColor: '#f9f9f9',
+    marginBottom: 10,
+    shadowColor: '#7c7c7c',
+    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.4,
+    elevation: 2
+  },
+  timeStyle: {
+    padding: 5,
+    borderRadius: 10,
+    backgroundColor: '#f9f9f9',
+    marginBottom: 10
+  },
   signUpStyle: {
     textDecorationLine: 'underline'
   }
@@ -337,6 +436,8 @@ const mapStateToProps = ({ businessForm }) => {
     cities,
     categories,
     subcategories,
+    flags,
+    interests,
     name,
     nameAr,
     address,
@@ -354,6 +455,8 @@ const mapStateToProps = ({ businessForm }) => {
     subcategory,
     operationHours,
     price,
+    selectedFlags,
+    selectedInterests,
     error,
     loading
   } = businessForm;
@@ -362,6 +465,8 @@ const mapStateToProps = ({ businessForm }) => {
     cities,
     categories,
     subcategories,
+    flags,
+    interests,
     name,
     nameAr,
     address,
@@ -379,6 +484,8 @@ const mapStateToProps = ({ businessForm }) => {
     subcategory,
     operationHours,
     price,
+    selectedFlags,
+    selectedInterests,
     error,
     loading
   };
@@ -390,5 +497,7 @@ export default connect(mapStateToProps, {
   getCities,
   getCategories,
   getSubcategories,
+  getFlags,
+  getInterests,
   createBusiness
 })(AddBusinessForm);
