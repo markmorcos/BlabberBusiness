@@ -8,11 +8,13 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "lodash": "^4.17.4",
     "native-base": "^2.3.1",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
     "react-native-device-info": "^0.11.0",
     "react-native-extra-dimensions-android": "^0.20.1",
+    "react-native-fcm": "^9.3.0",
     "react-native-image-picker": "^0.26.4",
     "react-native-linear-gradient": "^2.2.0",
     "react-native-maps": "^0.16.4",

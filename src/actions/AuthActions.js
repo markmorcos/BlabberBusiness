@@ -54,7 +54,7 @@ export const loginUser = ({ email, password }) => {
       user_data.auth_key = auth_key;
       return loginUserSuccess(dispatch, user_data);
     })
-    .catch(() => loginUserFail(dispatch, 'Authentication failed'));
+    .catch(error => { console.log(error); loginUserFail(dispatch, 'Login failed'); });
   };
 };
 
@@ -107,7 +107,7 @@ export const logoutUser = () => {
               }
               return logoutUserSuccess(dispatch);
             })
-            .catch(() => logoutUserFail(dispatch, 'Logout user failed'));
+            .catch(() => logoutUserFail(dispatch, 'Logout failed'));
           }
         }
       ],

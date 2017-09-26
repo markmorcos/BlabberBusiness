@@ -3,6 +3,7 @@ package com.blabberbusiness;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.evollu.react.fcm.FIRMessagingPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.airbnb.android.react.maps.MapsPackage;
 import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FIRMessagingPackage(),
             new RNDeviceInfo(),
             new MapsPackage(),
             new ExtraDimensionsPackage(),

@@ -29,6 +29,7 @@ import { Select, Option } from 'react-native-select-list';
 import Modal from 'react-native-modalbox';
 import SelectMultiple from 'react-native-select-multiple';
 import MapView from 'react-native-maps';
+import _ from 'lodash';
 
 const { OS } = Platform;
 
@@ -43,10 +44,69 @@ class AddBusinessForm extends Component {
   };
 
   componentWillMount() {
-    this.props.getCountries();
-    this.props.getCategories();
-    this.props.getFlags();
-    this.props.getInterests();
+    const {
+      getCountries,
+      getCategories,
+      getFlags,
+      getInterests,
+      business
+    } = this.props;
+    getCountries();
+    getCategories();
+    getFlags();
+    getInterests();
+    if (business) {
+      _.each(business, (value, key) => this.onPropChange(key, value));
+      const tokens = business.operation_hours.split(/ |:/);
+      const fromHours = parseInt(tokens[1]) + (tokens[3] === 'PM' ? 12 : 0);
+      const toHours = parseInt(tokens[5]) + (tokens[7] === 'PM' ? 12 : 0);
+      const fromTime = new Date(1970, 1, 1, fromHours, parseInt(tokens[2]), 0, 0);
+      const toTime = new Date(1970, 1, 1, toHours, parseInt(tokens[6]), 0, 0);
+      this.setState({ fromTime, toTime }); // TODO fix backend
+      this.onPropChange('interests', []); // TODO fix backend
+    }
+  }
+
+  componentDidMount() {
+    const { business } = this.props;
+    if (business) {
+      const { price } = business;
+      this.refs.price.onOptionPressed(price, price);
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    const {
+      getCities,
+      getSubcategories,
+      countries,
+      cities,
+      categories,
+      subcategories,
+      business
+    } = newProps;
+    const {
+      country,
+      city,
+      category,
+      subcategory,
+    } = this.refs;
+    if (business) {
+      if (!this.props.countries.length && countries.length) {
+        country.onOptionPressed(business.country_id, business.country);
+        getCities(business.country_id);
+      }
+      if (!this.props.cities.length && cities.length) {
+        city.onOptionPressed(business.city_id, business.city);
+      }
+      if (!this.props.categories.length && categories.length) {
+        category.onOptionPressed(business.category_id, business.category.name); // TODO fix backend
+        getSubcategories(business.category_id);
+      }
+      if (!this.props.subcategories.length && subcategories.length) {
+        subcategory.onOptionPressed(business.subcategory_id, business.subcategory.name);
+      }
+    }
   }
 
   onPhotoPress() {
@@ -167,8 +227,6 @@ class AddBusinessForm extends Component {
     const {
       flags,
       interests,
-      media,
-      location,
       country,
       city,
       category,
@@ -176,7 +234,8 @@ class AddBusinessForm extends Component {
       operationHours,
       price,
       selectedFlags,
-      selectedInterests
+      selectedInterests,
+      region
 	  } = this.props;
     const {
       fromTimePickerVisible,
@@ -189,7 +248,7 @@ class AddBusinessForm extends Component {
     const {
       flagsModal,
       interestsModal,
-      locationModal
+      regionModal
     } = this.refs;
     const fields = [
       { name: 'name', placeholder: 'Name' },
@@ -222,6 +281,7 @@ class AddBusinessForm extends Component {
                 );
               })}
               <Select
+                ref="country"
                 selectStyle={selectStyle}
                 selectedValue={country}
                 onSelect={(value, text) => this.onCountryChange(value)}
@@ -233,6 +293,7 @@ class AddBusinessForm extends Component {
                 {this.renderCountries()}
               </Select>
               <Select
+                ref="city"
                 selectStyle={selectStyle}
                 selectedValue={city}
                 onSelect={(value, text) => this.onPropChange('city', value)}
@@ -244,6 +305,7 @@ class AddBusinessForm extends Component {
                 {this.renderCities()}
               </Select>
               <Select
+                ref="category"
                 selectStyle={selectStyle}
                 selectedValue={category}
                 onSelect={(value, text) => this.onCategoryChange(value)}
@@ -255,6 +317,7 @@ class AddBusinessForm extends Component {
                 {this.renderCategories()}
               </Select>
               <Select
+                ref="subcategory"
                 selectStyle={selectStyle}
                 selectedValue={subcategory}
                 onSelect={(value, text) => this.onPropChange('subcategory', value)}
@@ -266,6 +329,7 @@ class AddBusinessForm extends Component {
                 {this.renderSubcategories()}
               </Select>
               <Select
+                ref="price"
                 selectStyle={selectStyle}
                 selectedValue={price}
                 onSelect={(value, text) => this.onPropChange('price', value)}
@@ -327,15 +391,20 @@ class AddBusinessForm extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={timeStyle}
-                onPress={() => locationModal.open()}
+                onPress={() => regionModal.open()}
               >
-                <Text>Choose location</Text>
+                <Text>Choose region</Text>
               </TouchableOpacity>
               {this.renderButton()}
             </CardSection>
           </Card>
         </ScrollView>
-        <Modal ref="flagsModal" style={{ height: '50%' }} backdrop>
+        <Modal
+          ref="flagsModal"
+          onRequestClose={() => null}
+          style={{ height: '50%' }}
+          backdrop
+        >
           <SelectMultiple
             items={flags.map(flag => {
               return { label: flag.name, value: flag.id };
@@ -344,7 +413,12 @@ class AddBusinessForm extends Component {
             onSelectionsChange={selectedFlags => this.onPropChange('selectedFlags', selectedFlags)}
           />
         </Modal>
-        <Modal ref="interestsModal" style={{ height: '50%' }} backdrop>
+        <Modal
+          ref="interestsModal"
+          onRequestClose={() => null}
+          style={{ height: '50%' }}
+          backdrop
+        >
           <SelectMultiple
             items={interests.map(interest => {
               return { label: interest.name, value: interest.id };
@@ -353,15 +427,17 @@ class AddBusinessForm extends Component {
             onSelectionsChange={selectedInterests => this.onPropChange('selectedInterests', selectedInterests)}
           />
         </Modal>
-        <Modal ref="locationModal" style={{ height: '50%' }} backdrop swipeToClose={false}>
+        <Modal
+          ref="regionModal"
+          onRequestClose={() => null}
+          style={{ height: '50%' }}
+          backdrop
+          swipeToClose={false}
+        >
           <MapView
             style={{ width: '100%', height: '100%' }}
-            initialRegion={{
-              latitude: 30.042,
-              longitude: 31.252,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
+            initialRegion={region}
+            onRegionChange={region => this.onPropChange('region', region)}
           />
         </Modal>
       </KeyboardAvoidingView>
@@ -438,6 +514,7 @@ const mapStateToProps = ({ businessForm }) => {
     subcategories,
     flags,
     interests,
+    media,
     name,
     nameAr,
     address,
@@ -447,8 +524,6 @@ const mapStateToProps = ({ businessForm }) => {
     facebook,
     description,
     descriptionAr,
-    media,
-    location,
     country,
     city,
     category,
@@ -457,6 +532,7 @@ const mapStateToProps = ({ businessForm }) => {
     price,
     selectedFlags,
     selectedInterests,
+    region,
     error,
     loading
   } = businessForm;
@@ -467,6 +543,7 @@ const mapStateToProps = ({ businessForm }) => {
     subcategories,
     flags,
     interests,
+    media,
     name,
     nameAr,
     address,
@@ -476,8 +553,6 @@ const mapStateToProps = ({ businessForm }) => {
     facebook,
     description,
     descriptionAr,
-    media,
-    location,
     country,
     city,
     category,
@@ -486,6 +561,7 @@ const mapStateToProps = ({ businessForm }) => {
     price,
     selectedFlags,
     selectedInterests,
+    region,
     error,
     loading
   };

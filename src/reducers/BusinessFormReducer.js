@@ -38,7 +38,6 @@ const INITIAL_STATE = {
   description: '',
   descriptionAr: '',
   media: '',
-  location: '',
   country: '',
   city: '',
   category: '',
@@ -47,6 +46,12 @@ const INITIAL_STATE = {
   price: '',
   selectedFlags: [],
   selectedInterests: [],
+  region: {
+    latitude: 30.042,
+    longitude: 31.252,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  },
   error: '',
   loading: false
 };
