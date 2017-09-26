@@ -105,7 +105,6 @@ const getSubcategoriesFail = (dispatch, error) => {
 };
 
 export const getSubcategories = categoryId => {
-  console.log("response");
   return dispatch => {
     dispatch({ type: GET_SUBCATEGORIES });
     api.get(`get-sub-categories?category_id=${categoryId}`)

@@ -19,6 +19,7 @@ import { Actions } from 'react-native-router-flux';
 import { Keyboard, Alert } from 'react-native';
 import SInfo from 'react-native-sensitive-info';
 import Toast from 'react-native-simple-toast';
+import DeviceInfo from 'react-native-device-info';
 
 const api = axios.create({
   baseURL: 'http://myblabber.com/be-staging/api/'
@@ -39,7 +40,17 @@ const loginUserFail = (dispatch, error) => {
 export const loginUser = ({ email, password }) => {
   return dispatch => {
     dispatch({ type: LOGIN_USER });
-    api.post('sign-in', { email, password, device_IMEI: '' })
+    console.log({
+      email,
+      password,
+      device_IMEI: DeviceInfo.getUniqueID()
+    });
+    api.post('sign-in', {
+      email,
+      password,
+      device_IMEI: DeviceInfo.getUniqueID(),
+      firebase_token: ''
+    })
     .then(response => {
       if (response.data.status) {
         return loginUserFail(dispatch, response.data.errors);
@@ -48,7 +59,7 @@ export const loginUser = ({ email, password }) => {
       user_data.auth_key = auth_key;
       return loginUserSuccess(dispatch, user_data);
     })
-    .catch(() => loginUserFail(dispatch, 'Authentication failed'));
+    .catch(error => { console.log(error); loginUserFail(dispatch, 'Login failed'); });
   };
 };
 
@@ -90,14 +101,18 @@ export const logoutUser = () => {
           onPress: async () => {
             dispatch({ type: LOGOUT_USER });
             const user = JSON.parse(await SInfo.getItem('user', {}));
-            api.post('logout', { user_id: user.id, auth_key: user.auth_key })
+            api.post('logout', {
+              user_id: user.id,
+              auth_key: user.auth_key,
+              device_IMEI: DeviceInfo.getUniqueID()
+            })
             .then(response => {
               if (response.data.status) {
                 return logoutUserFail(dispatch, response.data.errors);
               }
               return logoutUserSuccess(dispatch);
             })
-            .catch(() => logoutUserFail(dispatch, 'Logout user failed'));
+            .catch(() => logoutUserFail(dispatch, 'Logout failed'));
           }
         }
       ],
@@ -135,6 +150,8 @@ export const registerUser = ({
     data.append('email', email);
     data.append('password', password);
     data.append('type', 'business');
+    data.append('device_IMEI', DeviceInfo.getUniqueID());
+    data.append('firebase_token', '');
     const config = {
       headers: {
         'Accept': 'application/json',
