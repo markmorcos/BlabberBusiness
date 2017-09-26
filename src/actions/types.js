@@ -52,3 +52,8 @@ export const GET_FLAGS_FAIL = 'get_flags_fail'
 export const GET_INTERESTS = 'get_interests'
 export const GET_INTERESTS_SUCCESS = 'get_interests_success'
 export const GET_INTERESTS_FAIL = 'get_interests_fail'
+
+// Notifications
+export const GET_NOTIFICATIONS = 'get_notifications'
+export const GET_NOTIFICATIONS_SUCCESS = 'get_notifications_success'
+export const GET_NOTIFICATIONS_FAIL = 'get_notifications_fail'

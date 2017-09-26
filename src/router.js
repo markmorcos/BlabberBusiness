@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm';
 import SignUpForm from './components/SignUpForm';
 import ProcessScreen from './components/ProcessScreen';
 import Dashboard from './components/Dashboard';
+import Notifications from './components/Notifications';
 import AddBusinessForm from './components/AddBusinessForm';
 import EditBusinessForm from './components/EditBusinessForm';
 import { connect } from 'react-redux';
@@ -47,7 +48,7 @@ class RouterComponent extends Component {
           />
           <Scene
             key="notifications"
-            component={Dashboard}
+            component={Notifications}
             title="Notifications"
             onLeft={() => this.props.logoutUser()}
             leftButtonImage={require('./assets/logout_icon.png')}
