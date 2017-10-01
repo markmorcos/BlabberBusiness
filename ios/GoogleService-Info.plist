@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>503193120225-h8lp2g44hf77rm5m2m9qebc3mks6a77t.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.503193120225-h8lp2g44hf77rm5m2m9qebc3mks6a77t</string>
+	<key>API_KEY</key>
+	<string>AIzaSyArmm60MKhu_std6gLek7HbTJksHNtMWPk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>503193120225</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.BlabberBusiness</string>
+	<key>PROJECT_ID</key>
+	<string>blabber-for-businesses</string>
+	<key>STORAGE_BUCKET</key>
+	<string>blabber-for-businesses.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:503193120225:ios:9d5bc5aa94fc71ba</string>
+	<key>DATABASE_URL</key>
+	<string>https://blabber-for-businesses.firebaseio.com</string>
+</dict>
+</plist>

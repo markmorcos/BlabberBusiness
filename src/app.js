@@ -50,7 +50,7 @@ class App extends Component {
     SplashScreen.hide();
     // FCM.requestPermissions().then(() => console.log('granted')).catch(() => console.log('user rejected')); // for iOS
     FCM.getFCMToken().then(token => {
-        // console.log(token)
+        console.log(token)
         // store fcm token in your server
     });
     
