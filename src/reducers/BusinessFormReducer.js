@@ -17,7 +17,10 @@ import {
   GET_FLAGS_FAIL,
   GET_INTERESTS,
   GET_INTERESTS_SUCCESS,
-  GET_INTERESTS_FAIL
+  GET_INTERESTS_FAIL,
+  SUBMIT_BUSINESS,
+  SUBMIT_BUSINESS_SUCCESS,
+  SUBMIT_BUSINESS_FAIL
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -27,31 +30,6 @@ const INITIAL_STATE = {
   subcategories: [],
   flags: [],
   interests: [],
-  media: '',
-  name: '',
-  nameAr: '',
-  address: '',
-  addressAr: '',
-  phone: '',
-  website: '',
-  facebook: '',
-  description: '',
-  descriptionAr: '',
-  media: '',
-  country: '',
-  city: '',
-  category: '',
-  subcategory: '',
-  operationHours: '',
-  price: '',
-  selectedFlags: [],
-  selectedInterests: [],
-  region: {
-    latitude: 30.042,
-    longitude: 31.252,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  },
   error: '',
   loading: false
 };
@@ -67,7 +45,7 @@ export default (state = INITIAL_STATE, action) => {
     case GET_COUNTRIES_FAIL:
       return { ...state, error: action.payload };
     case GET_CITIES:
-      return { ...state, cities: [], city: '', error: '' };
+      return { ...state, cities: [], error: '' };
     case GET_CITIES_SUCCESS:
       return { ...state, cities: action.payload, error: '' };
     case GET_CITIES_FAIL:
@@ -79,7 +57,7 @@ export default (state = INITIAL_STATE, action) => {
     case GET_CATEGORIES_FAIL:
       return { ...state, error: action.payload };
     case GET_SUBCATEGORIES:
-      return { ...state, subcategories: [], subcategory: '', error: '' };
+      return { ...state, subcategories: [], error: '' };
     case GET_SUBCATEGORIES_SUCCESS:
       return { ...state, subcategories: action.payload, error: '' };
     case GET_SUBCATEGORIES_FAIL:
@@ -96,6 +74,12 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, interests: action.payload, error: '' };
     case GET_INTERESTS_FAIL:
       return { ...state, error: action.payload };
+    case SUBMIT_BUSINESS:
+      return { ...state, loading: true, error: '' };
+    case SUBMIT_BUSINESS_SUCCESS:
+      return { ...state, loading: false, error: '' };
+    case SUBMIT_BUSINESS_FAIL:
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }

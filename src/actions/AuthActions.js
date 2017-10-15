@@ -12,7 +12,16 @@ import {
   LOGOUT_USER_FAIL,
   REGISTER_USER,
   REGISTER_USER_SUCCESS,
-  REGISTER_USER_FAIL
+  REGISTER_USER_FAIL,
+  UPDATE_PHOTO,
+  UPDATE_PHOTO_SUCCESS,
+  UPDATE_PHOTO_FAIL,
+  UPDATE_USER,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAIL,
+  UPDATE_PASSWORD,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAIL
 } from './types';
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
@@ -27,6 +36,7 @@ const api = axios.create({
 
 const loginUserSuccess = (dispatch, user) => {
   dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
+  dispatch({ type: LOGIN_STATE_SUCCESS, payload: user });
   SInfo.setItem('user', JSON.stringify(user), {});
   Keyboard.dismiss();
   Actions.dashboard({ type: 'replace' });
@@ -38,13 +48,14 @@ const loginUserFail = (dispatch, error) => {
 }
 
 export const loginUser = ({ email, password }) => {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: LOGIN_USER });
+    const token = await SInfo.getItem('token', {}) || "";
     api.post('sign-in', {
       email,
       password,
       device_IMEI: DeviceInfo.getUniqueID(),
-      firebase_token: ''
+      firebase_token: token
     })
     .then(response => {
       if (response.data.status) {
@@ -54,7 +65,7 @@ export const loginUser = ({ email, password }) => {
       user_data.auth_key = auth_key;
       return loginUserSuccess(dispatch, user_data);
     })
-    .catch(error => { console.log(error); loginUserFail(dispatch, 'Login failed'); });
+    .catch(() => loginUserFail(dispatch, 'Login failed'));
   };
 };
 
@@ -63,7 +74,7 @@ export const getLoginState = () => {
     dispatch({ type: LOGIN_STATE });
     const user = await SInfo.getItem('user', {});
     if (user !== null && user !== undefined) {
-      dispatch({ type: LOGIN_STATE_SUCCESS });
+      dispatch({ type: LOGIN_STATE_SUCCESS, payload: JSON.parse(user) });
       Actions.dashboard({ type: 'replace' });
     } else {
       dispatch({ type: LOGIN_STATE_FAIL, payload: 'Get login state failed' });
@@ -135,7 +146,7 @@ export const registerUser = ({
   email,
   password
 }) => {
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: REGISTER_USER });
     let data = new window.FormData();
     media && data.append('Media[file]"; filename="photo.jpg"', media);
@@ -146,7 +157,8 @@ export const registerUser = ({
     data.append('password', password);
     data.append('type', 'business');
     data.append('device_IMEI', DeviceInfo.getUniqueID());
-    data.append('firebase_token', '');
+    const token = await SInfo.getItem('token', {});
+    data.append('firebase_token', token);
     const config = {
       headers: {
         'Accept': 'application/json',
@@ -162,5 +174,104 @@ export const registerUser = ({
       return registerUserSuccess(dispatch);
     })
     .catch(() => registerUserFail(dispatch, 'Registration failed'));
+  };
+};
+
+const updatePhotoSuccess = dispatch => {
+  dispatch({ type: UPDATE_PHOTO_SUCCESS });
+  Keyboard.dismiss();
+  Toast.show('Photo updated successfully');
+};
+
+const updatePhotoFail = (dispatch, error) => {
+  dispatch({ type: UPDATE_PHOTO_FAIL, payload: error });
+  Toast.show(error);
+}
+
+export const updatePhoto = media => {
+  return async dispatch => {
+    dispatch({ type: UPDATE_PHOTO });
+    let data = new window.FormData();
+    const user = JSON.parse(await SInfo.getItem('user', {}));
+    data.append('user_id', user.id);
+    data.append('auth_key', user.auth_key);
+    data.append('Media[file]"; filename="photo.jpg"', media);
+    const config = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+    api.post('change-profile-photo', data, config)
+    .then(response => {
+      const { status, errors } = response.data;
+      if (status) {
+        return updatePhotoFail(dispatch, response.data.errors);
+      }
+      user.profile_photo = response.data.new_photo;
+      SInfo.setItem('user', JSON.stringify(user), {});
+      return updatePhotoSuccess(dispatch);
+    })
+    .catch(() => updatePhotoFail(dispatch, 'Update photo failed'));
+  };
+};
+
+const updateUserSuccess = dispatch => {
+  dispatch({ type: UPDATE_USER_SUCCESS });
+  Keyboard.dismiss();
+  Toast.show('User saved successfully');
+};
+
+const updateUserFail = (dispatch, error) => {
+  dispatch({ type: UPDATE_USER_FAIL, payload: error });
+  Toast.show(error);
+}
+
+export const updateUser = ({ name, username, mobile }) => {
+  return async dispatch => {
+    dispatch({ type: UPDATE_USER });
+    const user = JSON.parse(await SInfo.getItem('user', {}));
+    api.post('edit-profile', { user_id: user.id, auth_key: user.auth_key, name, username, mobile })
+    .then(response => {
+      const { status, errors } = response.data;
+      if (status) {
+        return updateUserFail(dispatch, errors);
+      }
+      user.name = name;
+      user.username = username;
+      user.mobile = mobile;
+      SInfo.setItem('user', JSON.stringify(user), {});
+      return updateUserSuccess(dispatch);
+    })
+    .catch(() => updateUserFail(dispatch, 'Update user failed'));
+  };
+};
+
+const updatePasswordSuccess = dispatch => {
+  dispatch({ type: UPDATE_PASSWORD_SUCCESS });
+  Keyboard.dismiss();
+  Toast.show('Password updated successfully');
+};
+
+const updatePasswordFail = (dispatch, error) => {
+  dispatch({ type: UPDATE_PASSWORD_FAIL, payload: error });
+  Toast.show(error);
+}
+
+export const updatePassword = new_password => {
+  return async dispatch => {
+    dispatch({ type: UPDATE_PASSWORD });
+    const user = JSON.parse(await SInfo.getItem('user', {}));
+    api.post('change-password', { user_id: user.id, auth_key: user.auth_key, new_password })
+    .then(response => {
+      const { status, errors } = response.data;
+      if (status) {
+        return updatePasswordFail(dispatch, errors);
+      }
+      user.password = new_password;
+      SInfo.setItem('user', JSON.stringify(user), {});
+      return updatePasswordSuccess(dispatch);
+    })
+    .catch(() => updatePasswordFail(dispatch, 'Update password failed'));
   };
 };

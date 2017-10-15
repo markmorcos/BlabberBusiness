@@ -8,7 +8,7 @@ const BusinessItem = ({ business }) => {
   return (
     <TouchableOpacity
       style={containerStyle}
-      onPress={() => Actions.addBusiness({ business })}
+      onPress={() => Actions.businessForm({ business })}
     >
       <Text style={businessStyle}>{business.name}</Text>
       <View style={arrowStyle}>

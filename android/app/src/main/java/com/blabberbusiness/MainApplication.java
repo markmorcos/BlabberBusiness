@@ -3,14 +3,15 @@ package com.blabberbusiness;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.evollu.react.fcm.FIRMessagingPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.airbnb.android.react.maps.MapsPackage;
-import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
+import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import br.com.classapp.RNSensitiveInfo.RNSensitiveInfoPackage;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.imagepicker.ImagePickerPackage;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import com.evollu.react.fcm.FIRMessagingPackage;
+import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.ianlin.RNCarrierInfo.RNCarrierInfoPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -31,14 +32,15 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new FIRMessagingPackage(),
-            new RNDeviceInfo(),
-            new MapsPackage(),
-            new ExtraDimensionsPackage(),
+            new SplashScreenReactPackage(),
             new RNSensitiveInfoPackage(),
+            new MapsPackage(),
             new LinearGradientPackage(),
             new ImagePickerPackage(),
-            new SplashScreenReactPackage()
+            new FIRMessagingPackage(),
+            new ExtraDimensionsPackage(),
+            new RNDeviceInfo(),
+            new RNCarrierInfoPackage()
       );
     }
   };

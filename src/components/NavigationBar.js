@@ -9,7 +9,7 @@ const NavigationBar = () => {
         position: 'absolute',
         width: 80,
         height: 80,
-        bottom: -5,
+        bottom: -10,
         alignSelf: 'center'
       }} source={require('../assets/notifications_icon.png')} />
       <View
@@ -39,7 +39,7 @@ const NavigationBar = () => {
             }
           }}
         >
-          <Image style={{ position: 'relative', bottom: 5, width: 80, height: 80 }} source={require('../assets/notifications_icon.png')} />
+          <Image style={{ position: 'relative', bottom: 0, width: 80, height: 80 }} source={require('../assets/notifications_icon.png')} />
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
           onPress={() => {

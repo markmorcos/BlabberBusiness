@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -47,6 +46,7 @@
 		BC8D5653294F459AA8B97816 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C521BE21D12F4DFF92E4B2DC /* Ionicons.ttf */; };
 		DF03B995AA2449409FE8FDF8 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5E9BDEFB5594168AF47700C /* SimpleLineIcons.ttf */; };
 		F6C551E67E3144E1A41EC1AC /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A26C46EC2404E149EEDE784 /* rubicon-icon-font.ttf */; };
+		B3DFF301568E473A8E401697 /* libRNCarrierInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A42B29F2A3D462D9B731601 /* libRNCarrierInfo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,6 +348,8 @@
 		EB7DA8FBE4F922EC0B3D80B9 /* Pods-BlabberBusinessTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlabberBusinessTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlabberBusinessTests/Pods-BlabberBusinessTests.release.xcconfig"; sourceTree = "<group>"; };
 		FBE8EA6012DA47208261F858 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		FEC05D5DB45D4EA18EF7FBF9 /* RNSensitiveInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSensitiveInfo.xcodeproj; path = "../node_modules/react-native-sensitive-info/ios/RNSensitiveInfo.xcodeproj"; sourceTree = "<group>"; };
+		45AA25AB60934F5E9935C523 /* RNCarrierInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNCarrierInfo.xcodeproj"; path = "../node_modules/react-native-carrier-info/ios/RNCarrierInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		7A42B29F2A3D462D9B731601 /* libRNCarrierInfo.a */ = {isa = PBXFileReference; name = "libRNCarrierInfo.a"; path = "libRNCarrierInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,6 +386,7 @@
 				91B137F0A5184F6181288A5A /* libRNDeviceInfo.a in Frameworks */,
 				25B5BF7A09FA4A63B4C45B3D /* libRNFIRMessaging.a in Frameworks */,
 				47BF82B24326AF171F5FFF31 /* libPods-BlabberBusiness.a in Frameworks */,
+				B3DFF301568E473A8E401697 /* libRNCarrierInfo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +615,7 @@
 				046D3A0B96DD47C182A09A15 /* AirMaps.xcodeproj */,
 				BE5BD9FDA93349E5A9C01527 /* RNDeviceInfo.xcodeproj */,
 				7BE24A18670B4C80ABA932F6 /* RNFIRMessaging.xcodeproj */,
+				45AA25AB60934F5E9935C523 /* RNCarrierInfo.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1274,12 +1278,14 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)\..\node_modules\react-native-carrier-info\ios\RNCarrierInfo/**",
 				);
 				INFOPLIST_FILE = BlabberBusinessTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1316,12 +1322,14 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)\..\node_modules\react-native-carrier-info\ios\RNCarrierInfo/**",
 				);
 				INFOPLIST_FILE = BlabberBusinessTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1359,6 +1367,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)\..\node_modules\react-native-carrier-info\ios\RNCarrierInfo/**",
 				);
 				INFOPLIST_FILE = BlabberBusiness/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1389,6 +1398,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)\..\node_modules\react-native-carrier-info\ios\RNCarrierInfo/**",
 				);
 				INFOPLIST_FILE = BlabberBusiness/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

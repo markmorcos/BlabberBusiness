@@ -7,6 +7,7 @@ import {
 import axios from 'axios';
 import SInfo from 'react-native-sensitive-info';
 import Toast from 'react-native-simple-toast';
+import CarrierInfo from 'react-native-carrier-info';
 
 const api = axios.create({
   baseURL: 'http://myblabber.com/be-staging/api/'
@@ -25,10 +26,11 @@ export const getBusinesses = () => {
   return async dispatch => {
     dispatch({ type: GET_BUSINESSES });
     const user = JSON.parse(await SInfo.getItem('user', {}));
-    api.post('get-homescreen-businesses', {
+    const mcc = 602; // Number((await CarrierInfo.mobileCountryCode()).substr(0, 3));
+    api.post('get-businesses-by-owner', {
       user_id: user.id,
       auth_key: user.auth_key,
-      country_id: 602
+      country_id: mcc || 602
     })
     .then(response => {
       if (response.data.status) {

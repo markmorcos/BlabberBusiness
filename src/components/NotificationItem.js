@@ -4,7 +4,8 @@ import {
   Text,
   View,
   Image,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Linking
 } from 'react-native';
 import { Card, CardSection } from './common';
 import { Actions } from 'react-native-router-flux';
@@ -18,16 +19,22 @@ const NotificationItem = ({ notification }) => {
     userStyle,
     businessStyle
   } = styles;
+  const { body } = notification;
+  const { business_data, user_data } = notification.data.payload;
+  const userURL = 'http://myblabber.com/web/user/' + user_data.id;
+  const businessURL = 'http://myblabber.com/web/business/' + business_data.id;
+  const Touchable = body.indexOf('checked') !== -1 || body.indexOf('saved') !== -1 ? TouchableWithoutFeedback : TouchableOpacity;
   return (
-    <TouchableOpacity style={containerStyle}>
-      <Image style={imageStyle} source={{ uri: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/bf/KFC_logo.svg/1024px-KFC_logo.svg.png' }} />
-      <Text style={[textStyle, notificationStyle]}>
-        <Text style={[textStyle, userStyle]}>Mark Morcos</Text>
-        <Text style={textStyle}> commented on </Text>
-        <Text style={[textStyle, businessStyle]}>KFC - Maadi</Text>
-        <Text style={textStyle}>'s photo</Text>
-      </Text>
-    </TouchableOpacity>
+    <Touchable>
+      <View style={containerStyle}>
+        <Image style={imageStyle} source={{ uri: business_data.main_image }} onPress={() => {}}/>
+        <Text style={[textStyle, notificationStyle]}>
+          <Text style={[textStyle, userStyle]} onPress={() => Linking.openURL(userURL)}>{user_data.name}</Text>
+          <Text style={textStyle}>{notification.body.slice(user_data.name.length, -business_data.name.length)}</Text>
+          <Text style={[textStyle, businessStyle]} onPress={() => Linking.openURL(businessURL)}>{business_data.name}</Text>
+        </Text>
+      </View>
+    </Touchable>
   );
 };
 

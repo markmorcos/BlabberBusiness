@@ -1,0 +1,94 @@
+{
+  "project_info": {
+    "project_number": "723381489363",
+    "firebase_url": "https://blabber-1474909592957.firebaseio.com",
+    "project_id": "blabber-1474909592957",
+    "storage_bucket": "blabber-1474909592957.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723381489363:android:7ed497b8deab2953",
+        "android_client_info": {
+          "package_name": "com.blabber.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723381489363-gnsq2jfk61b23jsf7gnhtgacp4q5v5oj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blabber.app",
+            "certificate_hash": "e24c6b8c67d1c40b8393769360b1f0259610ebb2"
+          }
+        },
+        {
+          "client_id": "723381489363-jkcnkcti8deqrhkrsbhuab2vskuip6qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxP6xe-JgiUcxDlu0kmLUp2r7QzYHMafo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "723381489363-jkcnkcti8deqrhkrsbhuab2vskuip6qb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "723381489363-i08pju4252672ddeg3a3i27i892tv0hl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.myblabber.blabber",
+                "app_store_id": "1194725392"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:723381489363:android:a53e9d8d2451e151",
+        "android_client_info": {
+          "package_name": "com.blabberbusiness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "723381489363-jkcnkcti8deqrhkrsbhuab2vskuip6qb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxP6xe-JgiUcxDlu0kmLUp2r7QzYHMafo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

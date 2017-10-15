@@ -32,19 +32,7 @@ export const getNotifications = () => {
       if (response.data.status) {
         return getNotificationsFail(dispatch, response.data.errors);
       }
-      const {
-        new_friend_request,
-        friend_request_accepted,
-        review_tag,
-        comment
-      } = response.data.notifications;
-      // photo, review, checkin, favourite
-      const notifications = []
-        .concat(new_friend_request)
-        .concat(friend_request_accepted)
-        .concat(review_tag)
-        .concat(comment);
-      return getNotificationsSuccess(dispatch, notifications);
+      return getNotificationsSuccess(dispatch, response.data.notifications);
     })  
     .catch(() => getNotificationsFail(dispatch, 'Get notifications failed'));
   };

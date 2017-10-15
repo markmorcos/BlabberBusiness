@@ -21,6 +21,18 @@ export const REGISTER_USER = 'register_user';
 export const REGISTER_USER_SUCCESS = 'register_user_success';
 export const REGISTER_USER_FAIL = 'register_user_fail';
 
+export const UPDATE_PHOTO = 'update_photo';
+export const UPDATE_PHOTO_SUCCESS = 'update_photo_success';
+export const UPDATE_PHOTO_FAIL = 'update_photo_fail';
+
+export const UPDATE_USER = 'update_user';
+export const UPDATE_USER_SUCCESS = 'update_user_success';
+export const UPDATE_USER_FAIL = 'update_user_fail';
+
+export const UPDATE_PASSWORD = 'update_password';
+export const UPDATE_PASSWORD_SUCCESS = 'update_password_success';
+export const UPDATE_PASSWORD_FAIL = 'update_password_fail';
+
 // Businesses
 export const GET_BUSINESSES = 'get_businesses';
 export const GET_BUSINESSES_SUCCESS = 'get_businesses_success';
@@ -52,6 +64,10 @@ export const GET_FLAGS_FAIL = 'get_flags_fail'
 export const GET_INTERESTS = 'get_interests'
 export const GET_INTERESTS_SUCCESS = 'get_interests_success'
 export const GET_INTERESTS_FAIL = 'get_interests_fail'
+
+export const SUBMIT_BUSINESS = 'submit_business';
+export const SUBMIT_BUSINESS_SUCCESS = 'submit_business_success';
+export const SUBMIT_BUSINESS_FAIL = 'submit_business_fail';
 
 // Notifications
 export const GET_NOTIFICATIONS = 'get_notifications'

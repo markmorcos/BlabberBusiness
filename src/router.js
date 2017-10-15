@@ -7,8 +7,9 @@ import SignUpForm from './components/SignUpForm';
 import ProcessScreen from './components/ProcessScreen';
 import Dashboard from './components/Dashboard';
 import Notifications from './components/Notifications';
-import AddBusinessForm from './components/AddBusinessForm';
-import EditBusinessForm from './components/EditBusinessForm';
+import Settings from './components/Settings';
+import BusinessForm from './components/BusinessForm';
+import PrivacyPolicy from './components/PrivacyPolicy';
 import { connect } from 'react-redux';
 import { logoutUser } from './actions';
 
@@ -41,7 +42,7 @@ class RouterComponent extends Component {
             title="Blabber for Businesses"
             onLeft={() => this.props.logoutUser()}
             leftButtonImage={require('./assets/logout_icon.png')}
-            onRight={() => Actions.addBusiness()}
+            onRight={() => Actions.businessForm()}
             rightButtonImage={require('./assets/add_icon.png')}
             icon={() => tabBarIcon(require('./assets/home_icon.png'))}
             animation={false}
@@ -57,7 +58,7 @@ class RouterComponent extends Component {
           />
           <Scene
             key="settings"
-            component={Dashboard}
+            component={Settings}
             title="Settings"
             onLeft={() => this.props.logoutUser()}
             leftButtonImage={require('./assets/logout_icon.png')}
@@ -65,16 +66,11 @@ class RouterComponent extends Component {
             animation={false}
           />
           <Scene
-            key="addBusiness"
-            component={AddBusinessForm}
-            title="Add Business"
+            key="businessForm"
+            component={BusinessForm}
+            title="Business Form"
           />
-          <Scene
-            key="editBusiness"
-            component={EditBusinessForm}
-            title="Edit Business"
-          />
-    		  <Scene key="privacy" component={WelcomeScreen} title="Privacy Policy" />
+    		  <Scene key="privacy" component={PrivacyPolicy} title="Privacy Policy" />
      		</Scene>
       </Router>
     )

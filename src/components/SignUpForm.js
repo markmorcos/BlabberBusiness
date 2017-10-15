@@ -71,7 +71,7 @@ class SignUpForm extends Component {
       <Button
         style={{ width: '60%', alignSelf: 'center' }}
         onPress={this.onButtonPress.bind(this)}
-      >REGISTER</Button>
+      >Register</Button>
     );
   }
 

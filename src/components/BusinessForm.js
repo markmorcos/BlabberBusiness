@@ -14,14 +14,13 @@ import {
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import { connect } from 'react-redux';
 import {
-  propChanged,
   getCountries,
   getCities,
   getCategories,
   getSubcategories,
   getFlags,
   getInterests,
-  createBusiness
+  submitBusiness
 } from '../actions';
 import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -33,8 +32,34 @@ import _ from 'lodash';
 
 const { OS } = Platform;
 
-class AddBusinessForm extends Component {
+class BusinessForm extends Component {
   state = {
+    media: '',
+    main_image: '',
+    name: '',
+    nameAr: '',
+    address: '',
+    addressAr: '',
+    email: '',
+    phone: '',
+    website: '',
+    facebook: '',
+    description: '',
+    descriptionAr: '',
+    country: '',
+    city: '',
+    category: '',
+    subcategory: '',
+    operationHours: '',
+    price: '',
+    flags: [],
+    interests: [],
+    region: {
+      latitude: 30.042,
+      longitude: 31.252,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421
+    },
     fromTimePickerVisible: false,
     fromTime: new Date(1970, 1, 1, 0, 0, 0, 0),
     toTimePickerVisible: false,
@@ -57,13 +82,35 @@ class AddBusinessForm extends Component {
     getInterests();
     if (business) {
       _.each(business, (value, key) => this.onPropChange(key, value));
+      this.setState({
+        country: business.country_id,
+        city: business.city_id,
+        category: business.category.id,
+        subcategory: business.subcategory.id
+      });
+      this.setState({
+        interests: business.interests.split(',').map(interest => {
+            return { label: interest, value: interest };
+        })
+      });
       const tokens = business.operation_hours.split(/ |:/);
       const fromHours = parseInt(tokens[1]) + (tokens[3] === 'PM' ? 12 : 0);
+      if (fromHours === 12) fromHours = 0;
+      if (fromHours === 24) fromHours = 12;
       const toHours = parseInt(tokens[5]) + (tokens[7] === 'PM' ? 12 : 0);
+      if (toHours === 12) toHours = 0;
+      if (toHours === 24) toHours = 12;
       const fromTime = new Date(1970, 1, 1, fromHours, parseInt(tokens[2]), 0, 0);
       const toTime = new Date(1970, 1, 1, toHours, parseInt(tokens[6]), 0, 0);
-      this.setState({ fromTime, toTime }); // TODO fix backend
-      this.onPropChange('interests', []); // TODO fix backend
+      this.setState({ fromTime, toTime });
+      this.setState({
+        region: {
+          latitude: parseFloat(business.lat),
+          longitude: parseFloat(business.lng),
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }
+      })
     }
   }
 
@@ -83,6 +130,7 @@ class AddBusinessForm extends Component {
       cities,
       categories,
       subcategories,
+      interests,
       business
     } = newProps;
     const {
@@ -100,11 +148,11 @@ class AddBusinessForm extends Component {
         city.onOptionPressed(business.city_id, business.city);
       }
       if (!this.props.categories.length && categories.length) {
-        category.onOptionPressed(business.category_id, business.category.name); // TODO fix backend
+        category.onOptionPressed(business.category.id, business.category.name);
         getSubcategories(business.category_id);
       }
       if (!this.props.subcategories.length && subcategories.length) {
-        subcategory.onOptionPressed(business.subcategory_id, business.subcategory.name);
+        subcategory.onOptionPressed(business.subcategory.id, business.subcategory.name);
       }
     }
   }
@@ -112,28 +160,38 @@ class AddBusinessForm extends Component {
   onPhotoPress() {
     ImagePicker.showImagePicker({ title: 'Add a photo' }, response => {
       if (!response.didCancel) {
-        this.props.propChanged('media', response);
+        this.onPropChange('media', response);
       }
     });
   }
 
   renderPhoto() {
-    const { media } = this.props;
+    const { media, main_image } = this.state;
     const { addPhotoStyle, photoStyle, textStyle } = styles;
     if (media) {
       return (
         <TouchableOpacity
           onPress={this.onPhotoPress.bind(this)}
-          style={[addPhotoStyle, photoStyle]}
+          style={addPhotoStyle}
         >
           <Image style={photoStyle} source={media} />
+        </TouchableOpacity>
+      );
+    }
+    if (main_image) {
+      return (
+        <TouchableOpacity
+          onPress={this.onPhotoPress.bind(this)}
+          style={addPhotoStyle}
+        >
+          <Image style={photoStyle} source={{ uri: main_image }} />
         </TouchableOpacity>
       );
     }
     return (
       <TouchableOpacity
         onPress={this.onPhotoPress.bind(this)}
-        style={[addPhotoStyle, photoStyle]}
+        style={addPhotoStyle}
       >
         <Image source={require('../assets/add_photo.png')} />
         <Text style={textStyle}>Add a photo</Text>
@@ -142,16 +200,65 @@ class AddBusinessForm extends Component {
   }
 
   onButtonPress() {
-    this.props.createBusiness();
+    const { countries, cities, business, submitBusiness } = this.props;
+    const business_id = business && business.id; 
+    const {
+      media,
+      name,
+      nameAr,
+      address,
+      addressAr,
+      email,
+      phone,
+      website,
+      facebook,
+      description,
+      descriptionAr,
+      country,
+      city,
+      subcategory,
+      operationHours,
+      price,
+      flags,
+      interests,
+      region
+    } = this.state;
+    const flagsStr = flags.map(flag => flag.id).join(',');
+    const interestsStr = interests.map(interest => interest.label).join(',');
+    const { latitude, longitude } = region;
+    this.props.submitBusiness(
+      media,
+      name,
+      nameAr,
+      address,
+      addressAr,
+      email,
+      phone,
+      website,
+      facebook,
+      description,
+      descriptionAr,
+      country,
+      city,
+      subcategory,
+      operationHours,
+      price,
+      flagsStr,
+      interestsStr,
+      latitude,
+      longitude,
+      business_id
+    );
   }
 
   renderButton() {
+    const { business, loading } = this.props;
     if (this.props.loading) return <Spinner />;
-    return <Button onPress={this.onButtonPress.bind(this)}>CREATE</Button>;
+    return <Button onPress={this.onButtonPress.bind(this)}>{business ? 'UPDATE' : 'CREATE'}</Button>;
   }
 
   onPropChange(key, value) {
-    this.props.propChanged(key, value);
+    this.setState({ [key]: value });
   }
 
   renderCountries() {
@@ -180,11 +287,13 @@ class AddBusinessForm extends Component {
 
   onCategoryChange(value) {
     this.onPropChange('category', value);
+    this.onPropChange('subcategory', '');
     this.props.getSubcategories(value);
   }
 
   onCountryChange(value) {
     this.onPropChange('country', value);
+    this.onPropChange('city', '');
     this.props.getCities(value);
   }
 
@@ -225,19 +334,15 @@ class AddBusinessForm extends Component {
       signUpStyle
     } = styles;
     const {
-      flags,
-      interests,
       country,
       city,
       category,
       subcategory,
       operationHours,
       price,
-      selectedFlags,
-      selectedInterests,
-      region
-	  } = this.props;
-    const {
+      flags,
+      interests,
+      region,
       fromTimePickerVisible,
       fromTime,
       toTimePickerVisible,
@@ -255,6 +360,7 @@ class AddBusinessForm extends Component {
       { name: 'nameAr', placeholder: 'Arabic name' },
       { name: 'address', placeholder: 'Address' },
       { name: 'addressAr', placeholder: 'Arabic address' },
+      { name: 'email', placeholder: 'Email' },
       { name: 'phone', placeholder: 'Phone number' },
       { name: 'website', placeholder: 'Website' },
       { name: 'facebook', placeholder: 'Facebook' },
@@ -271,7 +377,7 @@ class AddBusinessForm extends Component {
                 return (
                   <Input
                     key={field.name}
-                    value={this.props[field.name]}
+                    value={this.state[field.name]}
                     onChangeText={this.onPropChange.bind(this, field.name)}
                     placeholder={field.placeholder}
                     type="dark"
@@ -381,19 +487,19 @@ class AddBusinessForm extends Component {
                 style={timeStyle}
                 onPress={() => flagsModal.open()}
               >
-                <Text>Choose flags ({selectedFlags.length} selected)</Text>
+                <Text>Choose flags ({flags.length} selected)</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={timeStyle}
                 onPress={() => interestsModal.open()}
               >
-                <Text>Choose interests ({selectedInterests.length} selected)</Text>
+                <Text>Choose interests ({interests.length} selected)</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={timeStyle}
                 onPress={() => regionModal.open()}
               >
-                <Text>Choose region</Text>
+                <Text>Choose region ({region.latitude}, {region.longitude} selected)</Text>
               </TouchableOpacity>
               {this.renderButton()}
             </CardSection>
@@ -406,11 +512,15 @@ class AddBusinessForm extends Component {
           backdrop
         >
           <SelectMultiple
-            items={flags.map(flag => {
-              return { label: flag.name, value: flag.id };
+            items={this.props.flags.map(flag => {
+              return { label: flag.name || flag.label, value: flag.id || flag.value };
             })}
-            selectedItems={selectedFlags}
-            onSelectionsChange={selectedFlags => this.onPropChange('selectedFlags', selectedFlags)}
+            selectedItems={flags.map(flag => {
+              return { label: flag.name || flag.label, value: flag.id || flag.value };
+            })}
+            onSelectionsChange={flags => this.onPropChange('flags', flags.map(flag => {
+              return { label: flag.name || flag.label, value: flag.id || flag.value };
+            }))}
           />
         </Modal>
         <Modal
@@ -420,11 +530,15 @@ class AddBusinessForm extends Component {
           backdrop
         >
           <SelectMultiple
-            items={interests.map(interest => {
-              return { label: interest.name, value: interest.id };
+            items={this.props.interests.map(interest => {
+              return { label: interest.name || interest.label, value: interest.name || interest.label };
             })}
-            selectedItems={selectedInterests}
-            onSelectionsChange={selectedInterests => this.onPropChange('selectedInterests', selectedInterests)}
+            selectedItems={interests.map(interest => {
+              return { label: interest.name || interest.label, value: interest.name || interest.label };
+            })}
+            onSelectionsChange={interests => this.onPropChange('interests', interests.map(interest => {
+              return { label: interest.name || interest.label, value: interest.name || interest.label };
+            }))}
           />
         </Modal>
         <Modal
@@ -462,6 +576,10 @@ const styles = {
     alignItems: 'center'
   },
   addPhotoStyle: {
+    width: '100%',
+    height: 120,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     backgroundColor: '#242424',
     marginBottom: 20,
     display: 'flex',
@@ -471,6 +589,7 @@ const styles = {
   photoStyle: {
   	width: '100%',
     height: 120,
+    resizeMode: 'contain',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10
   },
@@ -514,25 +633,6 @@ const mapStateToProps = ({ businessForm }) => {
     subcategories,
     flags,
     interests,
-    media,
-    name,
-    nameAr,
-    address,
-    addressAr,
-    phone,
-    website,
-    facebook,
-    description,
-    descriptionAr,
-    country,
-    city,
-    category,
-    subcategory,
-    operationHours,
-    price,
-    selectedFlags,
-    selectedInterests,
-    region,
     error,
     loading
   } = businessForm;
@@ -543,37 +643,17 @@ const mapStateToProps = ({ businessForm }) => {
     subcategories,
     flags,
     interests,
-    media,
-    name,
-    nameAr,
-    address,
-    addressAr,
-    phone,
-    website,
-    facebook,
-    description,
-    descriptionAr,
-    country,
-    city,
-    category,
-    subcategory,
-    operationHours,
-    price,
-    selectedFlags,
-    selectedInterests,
-    region,
     error,
     loading
   };
 };
 
 export default connect(mapStateToProps, {
-  propChanged,
   getCountries,
   getCities,
   getCategories,
   getSubcategories,
   getFlags,
   getInterests,
-  createBusiness
-})(AddBusinessForm);
+  submitBusiness
+})(BusinessForm);
