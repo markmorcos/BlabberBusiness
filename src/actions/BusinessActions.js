@@ -26,7 +26,7 @@ export const getBusinesses = () => {
   return async dispatch => {
     dispatch({ type: GET_BUSINESSES });
     const user = JSON.parse(await SInfo.getItem('user', {}));
-    const mcc = 602; // Number((await CarrierInfo.mobileCountryCode()).substr(0, 3));
+    const mcc = Number((await CarrierInfo.mobileCountryCode()).substr(0, 3));
     api.post('get-businesses-by-owner', {
       user_id: user.id,
       auth_key: user.auth_key,

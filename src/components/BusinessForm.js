@@ -85,8 +85,8 @@ class BusinessForm extends Component {
       this.setState({
         country: business.country_id,
         city: business.city_id,
-        category: business.category.id,
-        subcategory: business.subcategory.id
+        category: business.top_category.id,
+        subcategory: business.category.id
       });
       this.setState({
         interests: business.interests.split(',').map(interest => {
@@ -148,11 +148,11 @@ class BusinessForm extends Component {
         city.onOptionPressed(business.city_id, business.city);
       }
       if (!this.props.categories.length && categories.length) {
-        category.onOptionPressed(business.category.id, business.category.name);
-        getSubcategories(business.category_id);
+        category.onOptionPressed(business.top_category.id, business.top_category.name);
+        getSubcategories(business.top_category.id);
       }
       if (!this.props.subcategories.length && subcategories.length) {
-        subcategory.onOptionPressed(business.subcategory.id, business.subcategory.name);
+        subcategory.onOptionPressed(business.category.id, business.category.name);
       }
     }
   }
@@ -172,7 +172,7 @@ class BusinessForm extends Component {
       return (
         <TouchableOpacity
           onPress={this.onPhotoPress.bind(this)}
-          style={addPhotoStyle}
+          style={[addPhotoStyle, { backgroundColor: 'white' }]}
         >
           <Image style={photoStyle} source={media} />
         </TouchableOpacity>
@@ -182,7 +182,7 @@ class BusinessForm extends Component {
       return (
         <TouchableOpacity
           onPress={this.onPhotoPress.bind(this)}
-          style={addPhotoStyle}
+          style={[addPhotoStyle, { backgroundColor: 'white' }]}
         >
           <Image style={photoStyle} source={{ uri: main_image }} />
         </TouchableOpacity>
