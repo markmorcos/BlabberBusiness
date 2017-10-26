@@ -1,7 +1,5 @@
 import {
   PROP_CHANGED,
-  EMAIL_CHANGED,
-  PASSWORD_CHANGED,
   LOGIN_USER,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
@@ -42,10 +40,6 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PROP_CHANGED:
       return { ...state, [action.payload.key]: action.payload.value };
-    case EMAIL_CHANGED:
-      return { ...state, email: action.payload };
-      case PASSWORD_CHANGED:
-        return { ...state, password: action.payload };
       case LOGIN_USER:
         return { ...state, loading: true, error: '' };
       case LOGIN_USER_SUCCESS:
