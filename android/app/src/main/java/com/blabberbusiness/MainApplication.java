@@ -9,7 +9,6 @@ import com.airbnb.android.react.maps.MapsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
-import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.ianlin.RNCarrierInfo.RNCarrierInfoPackage;
 import com.facebook.react.ReactNativeHost;
@@ -38,7 +37,6 @@ public class MainApplication extends Application implements ReactApplication {
             new LinearGradientPackage(),
             new ImagePickerPackage(),
             new FIRMessagingPackage(),
-            new ExtraDimensionsPackage(),
             new RNDeviceInfo(),
             new RNCarrierInfoPackage()
       );

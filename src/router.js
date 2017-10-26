@@ -7,6 +7,7 @@ import SignUpForm from './components/SignUpForm';
 import ProcessScreen from './components/ProcessScreen';
 import Dashboard from './components/Dashboard';
 import Notifications from './components/Notifications';
+import Review from './components/Review';
 import Settings from './components/Settings';
 import BusinessForm from './components/BusinessForm';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -55,6 +56,11 @@ class RouterComponent extends Component {
             leftButtonImage={require('./assets/logout_icon.png')}
             icon={() => tabBarIcon(require('./assets/notifications_icon.png'))}
             animation={false}
+          />
+          <Scene
+            key="reviewItem"
+            component={Review}
+            title="Review"
           />
           <Scene
             key="settings"

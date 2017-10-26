@@ -24,7 +24,6 @@ import {
 } from '../actions';
 import ImagePicker from 'react-native-image-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { Select, Option } from 'react-native-select-list';
 import Modal from 'react-native-modalbox';
 import SelectMultiple from 'react-native-select-multiple';
 import MapView from 'react-native-maps';
@@ -51,7 +50,7 @@ class BusinessForm extends Component {
     category: '',
     subcategory: '',
     operationHours: '',
-    price: '',
+    price: 0,
     flags: [],
     interests: [],
     region: {
@@ -114,14 +113,6 @@ class BusinessForm extends Component {
     }
   }
 
-  componentDidMount() {
-    const { business } = this.props;
-    if (business) {
-      const { price } = business;
-      this.refs.price.onOptionPressed(price, price);
-    }
-  }
-
   componentWillReceiveProps(newProps) {
     const {
       getCities,
@@ -133,27 +124,22 @@ class BusinessForm extends Component {
       interests,
       business
     } = newProps;
-    const {
-      country,
-      city,
-      category,
-      subcategory,
-    } = this.refs;
     if (business) {
       if (!this.props.countries.length && countries.length) {
-        country.onOptionPressed(business.country_id, business.country);
+        this.setState({ country: business.country_id });
         getCities(business.country_id);
       }
       if (!this.props.cities.length && cities.length) {
-        city.onOptionPressed(business.city_id, business.city);
+        this.setState({ city: business.city_id });
       }
       if (!this.props.categories.length && categories.length) {
-        category.onOptionPressed(business.top_category.id, business.top_category.name);
+        this.setState({ category: business.top_category.id });
         getSubcategories(business.top_category.id);
       }
       if (!this.props.subcategories.length && subcategories.length) {
-        subcategory.onOptionPressed(business.category.id, business.category.name);
+        this.setState({ subcategory: business.category.id });
       }
+      this.setState({ price: business.price });
     }
   }
 
@@ -216,6 +202,7 @@ class BusinessForm extends Component {
       descriptionAr,
       country,
       city,
+      category,
       subcategory,
       operationHours,
       price,
@@ -226,7 +213,7 @@ class BusinessForm extends Component {
     const flagsStr = flags.map(flag => flag.id).join(',');
     const interestsStr = interests.map(interest => interest.label).join(',');
     const { latitude, longitude } = region;
-    this.props.submitBusiness(
+    submitBusiness(
       media,
       name,
       nameAr,
@@ -240,6 +227,7 @@ class BusinessForm extends Component {
       descriptionAr,
       country,
       city,
+      category,
       subcategory,
       operationHours,
       price,
@@ -263,25 +251,25 @@ class BusinessForm extends Component {
 
   renderCountries() {
     return this.props.countries.map(country => {
-      return <Option key={country.id} value={country.id}>{country.name}</Option>;
+      return <Picker.Item key={country.id} label={country.name} value={country.id} />;
     });
   }
 
   renderCities() {
     return this.props.cities.map(city => {
-      return <Option key={city.id} value={city.id}>{city.name}</Option>;
+      return <Picker.Item key={city.id} label={city.name} value={city.id} />;
     });
   }
 
   renderCategories() {
     return this.props.categories.map(category => {
-      return <Option key={category.id} value={category.id}>{category.name}</Option>;
+      return <Picker.Item key={category.id} label={category.name} value={category.id} />;
     });
   }
 
   renderSubcategories() {
     return this.props.subcategories.map(subcategory => {
-      return <Option key={subcategory.id} value={subcategory.id}>{subcategory.name}</Option>;
+      return <Picker.Item key={subcategory.id} label={subcategory.name} value={subcategory.id} />;
     });
   }
 
@@ -386,66 +374,46 @@ class BusinessForm extends Component {
                   />
                 );
               })}
-              <Select
-                ref="country"
-                selectStyle={selectStyle}
+              <Picker
+                style={selectStyle}
                 selectedValue={country}
-                onSelect={(value, text) => this.onCountryChange(value)}
-                default="Choose country"
-                caret="down"
-                caretSize={10}
-                caretColor="#797979"
+                onValueChange={(value, index) => this.onCountryChange(value)}
               >
+                <Picker.Item label="Choose country" value="" />
                 {this.renderCountries()}
-              </Select>
-              <Select
-                ref="city"
-                selectStyle={selectStyle}
+              </Picker>
+              <Picker
+                style={selectStyle}
                 selectedValue={city}
-                onSelect={(value, text) => this.onPropChange('city', value)}
-                default="Choose city"
-                caret="down"
-                caretSize={10}
-                caretColor="#797979"
+                onValueChange={(value, index) => this.onPropChange('city', value)}
               >
+                <Picker.Item label="Choose city" value="" />
                 {this.renderCities()}
-              </Select>
-              <Select
-                ref="category"
-                selectStyle={selectStyle}
+              </Picker>
+              <Picker
+                style={selectStyle}
                 selectedValue={category}
-                onSelect={(value, text) => this.onCategoryChange(value)}
-                default="Choose category"
-                caret="down"
-                caretSize={10}
-                caretColor="#797979"
+                onValueChange={(value, index) => this.onCategoryChange(value)}
               >
+                <Picker.Item label="Choose category" value="" />
                 {this.renderCategories()}
-              </Select>
-              <Select
-                ref="subcategory"
-                selectStyle={selectStyle}
+              </Picker>
+              <Picker
+                style={selectStyle}
                 selectedValue={subcategory}
-                onSelect={(value, text) => this.onPropChange('subcategory', value)}
-                default="Choose subcategory"
-                caret="down"
-                caretSize={10}
-                caretColor="#797979"
+                onValueChange={(value, index) => this.onPropChange('subcategory', value)}
               >
+                <Picker.Item label="Choose subcategory" value="" />
                 {this.renderSubcategories()}
-              </Select>
-              <Select
-                ref="price"
-                selectStyle={selectStyle}
+              </Picker>
+              <Picker
+                style={selectStyle}
                 selectedValue={price}
-                onSelect={(value, text) => this.onPropChange('price', value)}
-                default="Choose price range"
-                caret="down"
-                caretSize={10}
-                caretColor="#797979"
+                onValueChange={(value, index) => this.onPropChange('price', value)}
               >
-                {[1, 2, 3, 4, 5].map(i => <Option key={i} value={i}>{i}</Option>)}
-              </Select>
+                <Picker.Item label="Choose price" value="0" />
+                {['1', '2', '3', '4', '5'].map(i => <Picker.Item key={i} label={i} value={i} />)}
+              </Picker>
               <View style={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -605,6 +573,9 @@ const styles = {
     marginTop: 10
   },
   selectStyle: {
+    flex: 1,
+    width: '100%',
+    height: 40,
     borderRadius: 10,
     backgroundColor: '#f9f9f9',
     marginBottom: 10,

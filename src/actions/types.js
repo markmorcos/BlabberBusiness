@@ -73,3 +73,11 @@ export const SUBMIT_BUSINESS_FAIL = 'submit_business_fail';
 export const GET_NOTIFICATIONS = 'get_notifications'
 export const GET_NOTIFICATIONS_SUCCESS = 'get_notifications_success'
 export const GET_NOTIFICATIONS_FAIL = 'get_notifications_fail'
+
+export const GET_COMMENTS = 'get_comments';
+export const GET_COMMENTS_SUCCESS = 'get_comments_success';
+export const GET_COMMENTS_FAIL = 'get_comments_fail';
+
+export const ADD_COMMENT = 'add_comment';
+export const ADD_COMMENT_SUCCESS = 'add_comment_success';
+export const ADD_COMMENT_FAIL = 'add_comment_fail';

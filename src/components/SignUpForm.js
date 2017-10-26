@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 import { propChanged, registerUser } from '../actions';
 import { Actions } from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-picker';
-import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 const { OS } = Platform;
 
@@ -146,12 +145,7 @@ const styles = {
   },
   containerStyle: {
     width: '100%',
-    marginBottom:
-      ExtraDimensions.get('SOFT_MENU_BAR_HEIGHT')
-      ?
-      70 - ExtraDimensions.get('SOFT_MENU_BAR_HEIGHT')
-      :
-      45,
+    marginBottom: 50,
     alignItems: 'center'
   },
   addPhotoStyle: {

@@ -1,15 +1,16 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const Button = ({ style, onPress, children }) => {
+const Button = ({ disabled, style, onPress, children }) => {
   const { buttonStyle, textStyle } = styles;
+  const Touchable = disabled ? TouchableWithoutFeedback : TouchableOpacity;
   return (
-    <TouchableOpacity onPress={onPress} style={[buttonStyle, style]}>
-      <LinearGradient colors={['#00a8ff', '#0e49c1']} style={buttonStyle}>
+    <Touchable onPress={disabled ? () => {} : onPress} style={[buttonStyle, style]}>
+      <LinearGradient colors={disabled ? ['#ddd', '#aaa'] : ['#00a8ff', '#0e49c1']} style={buttonStyle}>
         <Text style={textStyle}>{children}</Text>
       </LinearGradient>
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 

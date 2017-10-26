@@ -19,15 +19,18 @@ const NotificationItem = ({ notification }) => {
     userStyle,
     businessStyle
   } = styles;
-  const { body } = notification;
-  const { business_data, user_data } = notification.data.payload;
+  const { body, data } = notification;
+  const { review_id, business_data, user_data } = data.payload;
   const userURL = 'http://myblabber.com/web/user/' + user_data.id;
   const businessURL = 'http://myblabber.com/web/business/' + business_data.id;
   const Touchable = body.indexOf('checked') !== -1 || body.indexOf('saved') !== -1 ? TouchableWithoutFeedback : TouchableOpacity;
   return (
-    <Touchable>
+    <Touchable onPress={() => {
+      if (data.type === 'review') Actions.reviewItem({ notification });
+      if (data.type === 'image') Actions.imageItem({ notification });
+    }}>
       <View style={containerStyle}>
-        <Image style={imageStyle} source={{ uri: business_data.main_image }} onPress={() => {}}/>
+        <Image style={imageStyle} source={{ uri: business_data.main_image }} />
         <Text style={[textStyle, notificationStyle]}>
           <Text style={[textStyle, userStyle]} onPress={() => Linking.openURL(userURL)}>{user_data.name}</Text>
           <Text style={textStyle}>{notification.body.slice(user_data.name.length, -business_data.name.length)}</Text>
