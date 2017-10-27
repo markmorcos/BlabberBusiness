@@ -145,7 +145,7 @@ const styles = {
   },
   containerStyle: {
     width: '100%',
-    marginBottom: 50,
+    marginBottom: 25,
     alignItems: 'center'
   },
   addPhotoStyle: {
