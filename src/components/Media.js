@@ -11,13 +11,13 @@ import {
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { getReview } from '../actions';
+import { getMedia } from '../actions';
 import Comments from './Comments';
 
-class Review extends Component {
+class Media extends Component {
   componentWillMount() {
-    const { review_id, getReview } = this.props;
-    getReview(review_id);
+    const { media_id, getMedia } = this.props;
+    getMedia(media_id);
   }
 
   render() {
@@ -29,21 +29,24 @@ class Review extends Component {
       userStyle,
       businessStyle
     } = styles;
-    const { review } = this.props;
-    if (review === null) return <Spinner />;
-    const { id, business, user } = review;
-    const userURL = 'http://myblabber.com/web/user/' + user.id;
+    const { media_id, media } = this.props;
+    if (media === null) return <Spinner />;
+    const { user, business } = media;
+    const userURL = 'http://myblabber.com/web/user/' + media.user.id;
     return (
       <ScrollView>
-        <View style={containerStyle}>
-          <Image style={imageStyle} source={{ uri: user.profile_photo }} />
+        <View style={[containerStyle, { flexDirection: 'column' }]}>
+          <Image
+            style={{ flex: 1, width: '100%', height: 400, resizeMode: 'contain' }}
+            source={{ uri: media.url }}
+          />
           <View style={notificationStyle}>
-            <Text style={[textStyle, userStyle]} onPress={() => Linking.openURL(userURL)}>{review.user.name}</Text>
-            <Text style={[textStyle, { fontWeight: 'bold' }]}>{review.rating || ''}/5</Text>
-            <Text style={textStyle}>{review.text || ''}</Text>
+            <Text style={[textStyle, userStyle]} onPress={() => Linking.openURL(userURL)}>{user.name}</Text>
+            <Text style={[textStyle, { fontWeight: 'bold' }]}>{media.rating || ''}/5</Text>
+            <Text style={textStyle}>{media.caption || ''}</Text>
           </View>
         </View>
-        <Comments object_id={id} object_type="review" business_id={business.id} />
+        <Comments object_id={media_id} object_type="media" business_id={business.id} />
       </ScrollView>
     );
   }
@@ -68,13 +71,14 @@ const styles = {
     alignItems: 'flex-start'
   },
   imageStyle: {
+    flex: 1,
     width: 60,
     height: 60,
     borderRadius: 30,
     marginRight: 10
   },
   notificationStyle: {
-    width: '100%',
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -93,8 +97,8 @@ const styles = {
 };
 
 const mapStateToProps = ({ notification }) => {
-  const { review, error, loading } = notification;
-  return { review, error, loading };
+  const { media, error, loading } = notification;
+  return { media, error, loading };
 };
 
-export default connect(mapStateToProps, { getReview })(Review);
+export default connect(mapStateToProps, { getMedia })(Media);

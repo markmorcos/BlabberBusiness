@@ -45,6 +45,8 @@ class BusinessForm extends Component {
     facebook: '',
     description: '',
     descriptionAr: '',
+    lat: '',
+    lng: '',
     country: '',
     city: '',
     category: '',
@@ -353,7 +355,9 @@ class BusinessForm extends Component {
       { name: 'website', placeholder: 'Website' },
       { name: 'facebook', placeholder: 'Facebook' },
       { name: 'description', placeholder: 'Description', multiline: true },
-      { name: 'descriptionAr', placeholder: 'Arabic description', multiline: true }
+      { name: 'descriptionAr', placeholder: 'Arabic description', multiline: true },
+      { name: 'lat', placeholder: 'Latitude' },
+      { name: 'lng', placeholder: 'Longitude' }
     ];
     return (
       <KeyboardAvoidingView behavior={OS === 'ios' ? "padding" : null}>
@@ -462,12 +466,6 @@ class BusinessForm extends Component {
                 onPress={() => interestsModal.open()}
               >
                 <Text>Choose interests ({interests.length} selected)</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={timeStyle}
-                onPress={() => regionModal.open()}
-              >
-                <Text>Choose region ({region.latitude}, {region.longitude} selected)</Text>
               </TouchableOpacity>
               {this.renderButton()}
             </CardSection>
