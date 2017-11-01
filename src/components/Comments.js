@@ -38,7 +38,17 @@ class Comments extends Component {
   }
 
   renderRow(comment) {
-    return <View><Text>{comment.text}</Text></View>;
+    const { containerStyle, imageStyle, notificationStyle, textStyle, userStyle } = styles;
+    const userURL = 'http://myblabber.com/web/user/' + comment.user.id;
+    return (
+      <View style={containerStyle}>
+        <Image style={imageStyle} source={{ uri: comment.user.profile_photo }} />
+        <View style={notificationStyle}>
+          <Text style={[textStyle, userStyle]} onPress={() => Linking.openURL(userURL)}>{comment.user.name}</Text>
+          <Text style={textStyle}>{comment.text}</Text>
+        </View>
+      </View>
+    );
   }
 
   onRefresh() {
@@ -101,7 +111,7 @@ const styles = {
     marginLeft: 5,
     marginRight: 5,
     marginTop: 5,
-    marginBottom: 5,
+    marginBottom: 2,
     padding: 10,
     backgroundColor: '#f9f9f9',
     display: 'flex',
@@ -109,10 +119,30 @@ const styles = {
     justifyContent: 'flex-start',
     alignItems: 'flex-start'
   },
+  imageStyle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10
+  },
+  notificationStyle: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start'
+  },
+  textStyle: {
+    backgroundColor: 'transparent',
+    color: '#a4a4a4'
+  },
+  userStyle: {
+    color: '#0091c9'
+  },
   listViewStyle: {
     width: '100%',
     height: '100%',
-    marginLeft: 5,
+    marginLeft: 0,
     marginRight: 5,
     paddingTop: 5,
     marginBottom: 5,

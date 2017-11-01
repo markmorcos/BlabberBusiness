@@ -17,7 +17,7 @@ export default (state = INITIAL_STATE, action) => {
     case GET_BUSINESSES:
       return { ...state, loading: true, error: '' };
     case GET_BUSINESSES_SUCCESS:
-      return { ...state, ...INITIAL_STATE, businesses: action.payload };
+      return { ...state, businesses: action.payload, loading: false };
     case GET_BUSINESSES_FAIL:
       return { ...state, error: action.payload, loading: false };
     case FILTER_BUSINESSES:

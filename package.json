@@ -20,6 +20,7 @@
     "react-native-linear-gradient": "^2.2.0",
     "react-native-maps": "^0.16.4",
     "react-native-modal-datetime-picker": "^4.11.0",
+    "react-native-modal-dropdown": "^0.5.0",
     "react-native-modalbox": "^1.4.2",
     "react-native-router-flux": "^4.0.0-beta.17",
     "react-native-select-list": "^1.0.5",

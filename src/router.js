@@ -7,7 +7,11 @@ import SignUpForm from './components/SignUpForm';
 import ProcessScreen from './components/ProcessScreen';
 import Dashboard from './components/Dashboard';
 import Notifications from './components/Notifications';
+import UserList from './components/UserList';
+import ReviewList from './components/ReviewList';
 import Review from './components/Review';
+import MediaList from './components/MediaList';
+import Media from './components/Media';
 import Settings from './components/Settings';
 import BusinessForm from './components/BusinessForm';
 import PrivacyPolicy from './components/PrivacyPolicy';
@@ -36,6 +40,7 @@ class RouterComponent extends Component {
           <Scene key="welcome" component={WelcomeScreen} hideNavBar={true} />
 	        <Scene key="login" component={LoginForm} hideNavBar={true} />
 	    		<Scene key="signUp" component={SignUpForm} hideNavBar={true} />
+    		  <Scene key="privacy" component={PrivacyPolicy} title="Privacy Policy" />
           <Scene key="process" component={ProcessScreen} hideNavBar={true} />
           <Scene
             key="dashboard"
@@ -48,6 +53,10 @@ class RouterComponent extends Component {
             icon={() => tabBarIcon(require('./assets/home_icon.png'))}
             animation={false}
           />
+          <Scene key="businessForm" component={BusinessForm} title="Business Form" />
+          <Scene key="userList" component={UserList} title="Users" />
+          <Scene key="reviewList" component={ReviewList} title="Reviews" />
+          <Scene key="mediaList" component={MediaList} title="Media" />
           <Scene
             key="notifications"
             component={Notifications}
@@ -57,11 +66,8 @@ class RouterComponent extends Component {
             icon={() => tabBarIcon(require('./assets/notifications_icon.png'))}
             animation={false}
           />
-          <Scene
-            key="reviewItem"
-            component={Review}
-            title="Review"
-          />
+          <Scene key="reviewItem" component={Review} title="Review" />
+          <Scene key="mediaItem" component={Media} title="Image" />
           <Scene
             key="settings"
             component={Settings}
@@ -71,12 +77,6 @@ class RouterComponent extends Component {
             icon={() => tabBarIcon(require('./assets/settings_icon.png'))}
             animation={false}
           />
-          <Scene
-            key="businessForm"
-            component={BusinessForm}
-            title="Business Form"
-          />
-    		  <Scene key="privacy" component={PrivacyPolicy} title="Privacy Policy" />
      		</Scene>
       </Router>
     )

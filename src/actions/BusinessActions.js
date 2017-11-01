@@ -30,7 +30,7 @@ export const getBusinesses = () => {
     api.post('get-businesses-by-owner', {
       user_id: user.id,
       auth_key: user.auth_key,
-      country_id: mcc || 602
+      country_id: 602 || mcc || 602
     })
     .then(response => {
       if (response.data.status) {

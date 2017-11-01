@@ -71,6 +71,26 @@ export const GET_NOTIFICATIONS = 'get_notifications'
 export const GET_NOTIFICATIONS_SUCCESS = 'get_notifications_success'
 export const GET_NOTIFICATIONS_FAIL = 'get_notifications_fail'
 
+export const GET_REVIEW = 'get_review';
+export const GET_REVIEW_SUCCESS = 'get_review_success';
+export const GET_REVIEW_FAIL = 'get_review_fail';
+
+export const GET_MEDIA = 'get_media';
+export const GET_MEDIA_SUCCESS = 'get_media_success';
+export const GET_MEDIA_FAIL = 'get_media_fail';
+
+export const GET_USERS = 'get_users';
+export const GET_USERS_SUCCESS = 'get_users_success';
+export const GET_USERS_FAIL = 'get_users_fail';
+
+export const GET_REVIEWS = 'get_reviews';
+export const GET_REVIEWS_SUCCESS = 'get_reviews_success';
+export const GET_REVIEWS_FAIL = 'get_reviews_fail';
+
+export const GET_MEDIA_LIST = 'get_media_list';
+export const GET_MEDIA_LIST_SUCCESS = 'get_media_list_success';
+export const GET_MEDIA_LIST_FAIL = 'get_media_list_fail';
+
 export const GET_COMMENTS = 'get_comments';
 export const GET_COMMENTS_SUCCESS = 'get_comments_success';
 export const GET_COMMENTS_FAIL = 'get_comments_fail';
