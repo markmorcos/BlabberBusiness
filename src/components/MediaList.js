@@ -13,7 +13,7 @@ import {
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { getMediaList } from '../actions';
+import { getMediaList, deleteMedia } from '../actions';
 
 class MediaList extends Component {
   componentWillMount() {
@@ -22,22 +22,40 @@ class MediaList extends Component {
     this.createDataSource(this.props);
   }
 
+  componentDidMount() {
+    const { business_id } = this.props;    
+    Actions.refresh({
+      onRight: () => Actions.mediaForm({ business_id, onSubmit: this.onRefresh.bind(this) })
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     this.createDataSource(nextProps);
   }
 
   createDataSource({ mediaList }) {
     const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
+      rowHasChanged: (r1, r2) => r1 !== r2,
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2
     });
-    this.dataSource = ds.cloneWithRows(mediaList);
+    const sectionedMediaList = {};
+    mediaList.forEach(function(media) {
+      const section = media.type.charAt(0).toUpperCase() + media.type.slice(1);
+      if (!sectionedMediaList[section]) sectionedMediaList[section] = [];
+      sectionedMediaList[section].push(media);
+    });
+    this.dataSource = ds.cloneWithRowsAndSections(sectionedMediaList);
   }
 
   renderRow(media) {
     const { containerStyle, imageStyle, notificationStyle, textStyle, userStyle } = styles;
     const userURL = 'http://myblabber.com/web/user/' + media.user.id;
     return (
-      <TouchableOpacity style={containerStyle} onPress={() => Actions.mediaItem({ media_id: media.id })}>
+      <TouchableOpacity
+        style={containerStyle}
+        onPress={() => Actions.mediaItem({ media_id: media.id })}
+        onLongPress={() => this.props.deleteMedia(media.id, media.business.id, this.onRefresh.bind(this))}
+      >
         <Image style={imageStyle} source={{ uri: media.url }} />
         <View style={notificationStyle}>
           <Text style={[textStyle, userStyle]} onPress={() => Linking.openURL(userURL)}>{media.user.name}</Text>
@@ -47,8 +65,12 @@ class MediaList extends Component {
     );
   }
 
+  renderSectionHeader(mediaList, section) {
+    return <Text style={{ marginTop: 5, padding: 5, fontSize: 24, fontWeight: 'bold' }}>{section}</Text>;
+  }
+
   onRefresh() {
-    const { business_id } = this.props;
+    const { business_id, getMediaList } = this.props;
     getMediaList(business_id);
     this.createDataSource(this.props);
   }
@@ -62,7 +84,8 @@ class MediaList extends Component {
         bounces={false}
         enableEmptySections
         dataSource={this.dataSource}
-        renderRow={this.renderRow}
+        renderRow={this.renderRow.bind(this)}
+        renderSectionHeader={this.renderSectionHeader}
         refreshControl={
           <RefreshControl
             refreshing={loading}
@@ -128,4 +151,4 @@ const mapStateToProps = ({ notification }) => {
   return { mediaList, error, loading };
 };
 
-export default connect(mapStateToProps, { getMediaList })(MediaList);
+export default connect(mapStateToProps, { getMediaList, deleteMedia })(MediaList);

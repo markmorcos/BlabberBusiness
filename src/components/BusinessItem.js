@@ -4,18 +4,18 @@ import { Card, CardSection } from './common';
 import { Actions } from 'react-native-router-flux';
 import ModalDropdown from 'react-native-modal-dropdown';
 
-const BusinessItem = ({ business }) => {
+const BusinessItem = ({ business, onSubmit }) => {
   const { containerStyle, businessStyle, arrowStyle,iconStyle } = styles;
   const business_id = business.id;
   return (
     <ModalDropdown
-      dropdownTextStyle={{ fontSize: 20 }}
-      dropdownStyle={{ width: '100%' }} 
+      dropdownTextStyle={{ fontSize: 18 }}
+      dropdownStyle={{ width: '100%' }}
       options={['View', 'Edit', 'Checkins', 'Favorites', 'Reviews', 'Media']}
       onSelect={(index, value) => {
         const businessURL = 'http://myblabber.com/web/business/' + business_id;
         if (index == 0) Linking.openURL(businessURL);
-        if (index == 1) Actions.businessForm({ business });
+        if (index == 1) Actions.businessForm({ business, onSubmit });
         if (index == 2) Actions.userList({ business_id, list_type: 'checkins' });
         if (index == 3) Actions.userList({ business_id, list_type: 'saved-businesses' });
         if (index == 4) Actions.reviewList({ business_id });

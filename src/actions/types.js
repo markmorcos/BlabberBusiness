@@ -66,6 +66,14 @@ export const SUBMIT_BUSINESS = 'submit_business';
 export const SUBMIT_BUSINESS_SUCCESS = 'submit_business_success';
 export const SUBMIT_BUSINESS_FAIL = 'submit_business_fail';
 
+export const SUBMIT_MEDIA = 'submit_media';
+export const SUBMIT_MEDIA_SUCCESS = 'submit_media_success';
+export const SUBMIT_MEDIA_FAIL = 'submit_media_fail';
+
+export const DELETE_MEDIA = 'delete_media';
+export const DELETE_MEDIA_SUCCESS = 'delete_media_success';
+export const DELETE_MEDIA_FAIL = 'delete_media_fail';
+
 // Notifications
 export const GET_NOTIFICATIONS = 'get_notifications'
 export const GET_NOTIFICATIONS_SUCCESS = 'get_notifications_success'

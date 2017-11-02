@@ -20,7 +20,10 @@ import {
   GET_INTERESTS_FAIL,
   SUBMIT_BUSINESS,
   SUBMIT_BUSINESS_SUCCESS,
-  SUBMIT_BUSINESS_FAIL
+  SUBMIT_BUSINESS_FAIL,
+  SUBMIT_MEDIA,
+  SUBMIT_MEDIA_SUCCESS,
+  SUBMIT_MEDIA_FAIL
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -79,6 +82,12 @@ export default (state = INITIAL_STATE, action) => {
     case SUBMIT_BUSINESS_SUCCESS:
       return { ...state, loading: false, error: '' };
     case SUBMIT_BUSINESS_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    case SUBMIT_MEDIA:
+      return { ...state, loading: true, error: '' };
+    case SUBMIT_MEDIA_SUCCESS:
+      return { ...state, loading: false, error: '' };
+    case SUBMIT_MEDIA_FAIL:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;

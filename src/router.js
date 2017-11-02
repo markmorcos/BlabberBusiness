@@ -12,11 +12,12 @@ import ReviewList from './components/ReviewList';
 import Review from './components/Review';
 import MediaList from './components/MediaList';
 import Media from './components/Media';
+import MediaForm from './components/MediaForm';
 import Settings from './components/Settings';
 import BusinessForm from './components/BusinessForm';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import { connect } from 'react-redux';
-import { logoutUser } from './actions';
+import { getBusinesses, logoutUser } from './actions';
 
 class RouterComponent extends Component {
   componentDidMount() {
@@ -48,7 +49,7 @@ class RouterComponent extends Component {
             title="Blabber for Businesses"
             onLeft={() => this.props.logoutUser()}
             leftButtonImage={require('./assets/logout_icon.png')}
-            onRight={() => Actions.businessForm()}
+            onRight={() => Actions.businessForm({ onSubmit: this.props.getBusinesses() })}
             rightButtonImage={require('./assets/add_icon.png')}
             icon={() => tabBarIcon(require('./assets/home_icon.png'))}
             animation={false}
@@ -56,7 +57,14 @@ class RouterComponent extends Component {
           <Scene key="businessForm" component={BusinessForm} title="Business Form" />
           <Scene key="userList" component={UserList} title="Users" />
           <Scene key="reviewList" component={ReviewList} title="Reviews" />
-          <Scene key="mediaList" component={MediaList} title="Media" />
+          <Scene
+            key="mediaList"
+            component={MediaList}
+            title="Media List"
+            onRight={() => {}}
+            rightButtonImage={require('./assets/add_icon.png')}
+          />
+          <Scene key="mediaForm" component={MediaForm} title="Media Form" />
           <Scene
             key="notifications"
             component={Notifications}
@@ -90,4 +98,4 @@ const tabBarIcon = icon => {
   />;
 };
 
-export default connect(null, { logoutUser })(RouterComponent);
+export default connect(null, { getBusinesses, logoutUser })(RouterComponent);

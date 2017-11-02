@@ -20,11 +20,17 @@ import {
   GET_INTERESTS_FAIL,
   SUBMIT_BUSINESS,
   SUBMIT_BUSINESS_SUCCESS,
-  SUBMIT_BUSINESS_FAIL
+  SUBMIT_BUSINESS_FAIL,
+  SUBMIT_MEDIA,
+  SUBMIT_MEDIA_SUCCESS,
+  SUBMIT_MEDIA_FAIL,
+  DELETE_MEDIA,
+  DELETE_MEDIA_SUCCESS,
+  DELETE_MEDIA_FAIL
 } from './types';
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
-import { Keyboard } from 'react-native';
+import { Keyboard, Alert } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import SInfo from 'react-native-sensitive-info';
 
@@ -170,9 +176,10 @@ export const getInterests = () => {
   };
 };
 
-const submitBusinessSuccess = dispatch => {
+const submitBusinessSuccess = (dispatch, onSubmit) => {
   dispatch({ type: SUBMIT_BUSINESS_SUCCESS });
   Keyboard.dismiss();
+  onSubmit();
   Actions.pop();
 };
 
@@ -203,7 +210,8 @@ export const submitBusiness = (
   interests,
   lat,
   lng,
-  business_id = ''
+  business_id = '',
+  onSubmit
 ) => {
   return async dispatch => {
     const { id, auth_key } = JSON.parse(await SInfo.getItem('user', {}));
@@ -240,13 +248,96 @@ export const submitBusiness = (
     }
     api.post((business_id ? 'edit' : 'add') + '-business', data, config)
     .then(response => {
-      console.log(response);
       const { status, errors } = response.data;
       if (status) {
         return submitBusinessFail(dispatch, errors);
       }
-      return submitBusinessSuccess(dispatch);
+      return submitBusinessSuccess(dispatch, onSubmit);
     })
-    .catch((error) => { console.log(error); submitBusinessFail(dispatch, 'Business submit failed') });
+    .catch(() => submitBusinessFail(dispatch, 'Business submit failed'));
+  };
+};
+
+const submitMediaSuccess = (dispatch, onSubmit) => {
+  dispatch({ type: SUBMIT_MEDIA_SUCCESS });
+  Keyboard.dismiss();
+  onSubmit();
+  Actions.pop();
+};
+
+const submitMediaFail = (dispatch, error) => {
+  dispatch({ type: SUBMIT_MEDIA_FAIL, payload: error });
+  Toast.show(error);
+}
+
+export const submitMedia = (business_id, media, type, caption, rating, onSubmit) => {
+  return async dispatch => {
+    const { id, auth_key } = JSON.parse(await SInfo.getItem('user', {}));
+    dispatch({ type: SUBMIT_MEDIA });
+    let data = new window.FormData();
+    data.append('user_id', id);
+    data.append('auth_key', auth_key);
+    data.append('business_id', business_id);
+    data.append('type', type);
+    media && data.append('Media[file]"; filename="photo.jpg"', media);
+    data.append('caption', caption);
+    data.append('rating', rating);
+    const config = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+    api.post('add-media', data, config)
+    .then(response => {
+      const { status, errors } = response.data;
+      if (status) {
+        return submitMediaFail(dispatch, errors);
+      }
+      return submitMediaSuccess(dispatch, onSubmit);
+    })
+    .catch(() => submitMediaFail(dispatch, 'Media submit failed'));
+  };
+};
+
+const deleteMediaSuccess = (dispatch, business_id, onSubmit) => {
+  dispatch({ type: DELETE_MEDIA_SUCCESS });
+  onSubmit();
+};
+
+const deleteMediaFail = (dispatch, error) => {
+  dispatch({ type: DELETE_MEDIA_FAIL, payload: error });
+  Toast.show(error);
+}
+
+export const deleteMedia = (media_id, business_id, onSubmit) => {
+  return dispatch => {
+    Alert.alert(
+      '',
+      'Are you sure you want to delete this image?',
+      [
+        { text: 'No' },
+        {
+          text: 'Yes',
+          onPress: async () => {
+            dispatch({ type: DELETE_MEDIA });
+            const user = JSON.parse(await SInfo.getItem('user', {}));
+            api.post('delete-media', {
+              user_id: user.id,
+              auth_key: user.auth_key,
+              media_id
+            })
+            .then(response => {
+              if (response.data.status) {
+                return deleteMediaFail(dispatch, response.data.errors);
+              }
+              return deleteMediaSuccess(dispatch, business_id, onSubmit);
+            })
+            .catch(() => deleteMediaFail(dispatch, 'Logout failed'));
+          }
+        }
+      ],
+      { cancelable: false }
+    );
   };
 };

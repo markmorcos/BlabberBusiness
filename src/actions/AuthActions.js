@@ -121,7 +121,7 @@ export const logoutUser = () => {
         }
       ],
       { cancelable: false }
-    )
+    );
   };
 };
 

@@ -188,7 +188,7 @@ class BusinessForm extends Component {
   }
 
   onButtonPress() {
-    const { countries, cities, business, submitBusiness } = this.props;
+    const { countries, cities, business, submitBusiness, onSubmit } = this.props;
     const business_id = business && business.id; 
     const {
       media,
@@ -237,7 +237,8 @@ class BusinessForm extends Component {
       interestsStr,
       latitude,
       longitude,
-      business_id
+      business_id,
+      onSubmit
     );
   }
 

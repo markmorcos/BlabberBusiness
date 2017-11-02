@@ -64,10 +64,10 @@ const styles = {
     width: 60,
     height: 60,
     borderRadius: 30,
-    marginRight: 5
+    marginRight: 10
   },
   notificationStyle: {
-    width: '100%',
+    flex: 1,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',

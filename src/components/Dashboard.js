@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getBusinesses } from '../actions';
-import { Actions } from 'react-native-router-flux';
 import BusinessItem from './BusinessItem';
 import SearchBar from './SearchBar';
 import NavigationBar from './NavigationBar';
+import { Actions } from 'react-native-router-flux';
 
 const { OS } = Platform;
 
@@ -26,6 +26,9 @@ class Dashboard extends Component {
     this.createDataSource(nextProps);
   }
 
+  componentDidMount() {
+  }
+
   createDataSource({ keyword, businesses }) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
@@ -36,7 +39,7 @@ class Dashboard extends Component {
   }
 
   renderRow(business) {
-    return <BusinessItem business={business} />;
+    return <BusinessItem business={business} onSubmit={this.onRefresh.bind(this)} />;
   }
 
   onRefresh() {
@@ -56,7 +59,7 @@ class Dashboard extends Component {
           renderHeader={() => <SearchBar />}
           stickyHeaderIndices={[]}
           dataSource={this.dataSource}
-          renderRow={this.renderRow}
+          renderRow={this.renderRow.bind(this)}
           refreshControl={
             <RefreshControl
               refreshing={this.props.loading}
