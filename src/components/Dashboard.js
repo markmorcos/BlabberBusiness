@@ -26,9 +26,6 @@ class Dashboard extends Component {
     this.createDataSource(nextProps);
   }
 
-  componentDidMount() {
-  }
-
   createDataSource({ keyword, businesses }) {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2

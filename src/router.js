@@ -35,6 +35,7 @@ class RouterComponent extends Component {
   }
 
   render() {
+    const { getBusinesses, logoutUser } = this.props;
     return (
       <Router>
       	<Scene key="root">
@@ -47,9 +48,9 @@ class RouterComponent extends Component {
             key="dashboard"
             component={Dashboard}
             title="Blabber for Businesses"
-            onLeft={() => this.props.logoutUser()}
+            onLeft={() => logoutUser()}
             leftButtonImage={require('./assets/logout_icon.png')}
-            onRight={() => Actions.businessForm({ onSubmit: this.props.getBusinesses() })}
+            onRight={() => Actions.businessForm({ onSubmit: () => getBusinesses() })}
             rightButtonImage={require('./assets/add_icon.png')}
             icon={() => tabBarIcon(require('./assets/home_icon.png'))}
             animation={false}
