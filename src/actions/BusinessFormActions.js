@@ -181,6 +181,7 @@ const submitBusinessSuccess = (dispatch, onSubmit) => {
   Keyboard.dismiss();
   onSubmit();
   Actions.pop();
+  Toast.show('The business you just created is in process. Kindly wait for an approval.');
 };
 
 const submitBusinessFail = (dispatch, error) => {
