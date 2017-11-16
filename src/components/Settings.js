@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import { connect } from 'react-redux';
-import { propChanged, updatePhoto, updateUser, updatePassword } from '../actions';
+import { getLoginState, propChanged, updatePhoto, updateUser, updatePassword } from '../actions';
 import { Actions } from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-picker';
 import NavigationBar from './NavigationBar';
@@ -19,6 +19,10 @@ import NavigationBar from './NavigationBar';
 const { OS } = Platform;
 
 class Settings extends Component {
+  componentWillMount() {
+    this.props.getLoginState('settings');
+  }
+
   onPhotoPress() {
     ImagePicker.showImagePicker({ title: 'Update photo' }, response => {
       if (!response.didCancel) {
@@ -219,6 +223,7 @@ const mapStateToProps = ({ auth }) => {
 };
 
 export default connect(mapStateToProps, {
+  getLoginState,
   propChanged,
   updatePhoto,
   updateUser,

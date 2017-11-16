@@ -27,10 +27,9 @@ import {
 import axios from 'axios';
 import SInfo from 'react-native-sensitive-info';
 import Toast from 'react-native-simple-toast';
+import { baseURL } from '../config';
 
-const api = axios.create({
-  baseURL: 'http://myblabber.com/be-staging/api/'
-});
+const api = axios.create({ baseURL });
 
 const getNotificationsSuccess = (dispatch, notifications) => {
   dispatch({ type: GET_NOTIFICATIONS_SUCCESS, payload: notifications });
@@ -53,7 +52,7 @@ export const getNotifications = () => {
       if (response.data.status) {
         return getNotificationsFail(dispatch, response.data.errors);
       }
-      const notifications = response.data.notifications.filter(notification => {
+      const notifications = response.data.notifications.list.filter(notification => {
         const { type } = notification.data;
         return type === 'review' || type === 'media' || type === 'checkin' || type === 'favorite';
       })

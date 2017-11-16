@@ -8,7 +8,8 @@ import {
   Linking,
   ScrollView,
   ListView,
-  RefreshControl
+  RefreshControl,
+  Dimensions
 } from 'react-native';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import { Actions } from 'react-native-router-flux';
@@ -50,23 +51,27 @@ class MediaList extends Component {
   renderRow(media) {
     const { containerStyle, imageStyle, notificationStyle, textStyle, userStyle } = styles;
     const userURL = 'http://myblabber.com/web/user/' + media.user.id;
+    const { width } = Dimensions.get('window');
     return (
       <TouchableOpacity
-        style={containerStyle}
+        style={[containerStyle, { width: '33%', height: width / 3 }]}
         onPress={() => Actions.mediaItem({ media_id: media.id })}
         onLongPress={() => this.props.deleteMedia(media.id, media.business.id, this.onRefresh.bind(this))}
       >
-        <Image style={imageStyle} source={{ uri: media.url }} />
-        <View style={notificationStyle}>
-          <Text style={[textStyle, userStyle]} onPress={() => Linking.openURL(userURL)}>{media.user.name}</Text>
-          <Text style={textStyle}>{media.caption}</Text>
-        </View>
+        <Image style={[imageStyle, { width: '100%', height: '100%' }]} source={{ uri: media.url }} />
       </TouchableOpacity>
     );
   }
 
   renderSectionHeader(mediaList, section) {
-    return <Text style={{ marginTop: 5, padding: 5, fontSize: 24, fontWeight: 'bold' }}>{section}</Text>;
+    return <Text style={{
+      width: '100%',
+      marginTop: 5,
+      marginLeft: 5,
+      padding: 5,
+      fontSize: 24,
+      fontWeight: 'bold'
+    }}>{section}</Text>;
   }
 
   onRefresh() {
@@ -81,6 +86,7 @@ class MediaList extends Component {
     return (
       <ListView
         style={[listViewStyle, { flex: 1 }]}
+        contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap' }}
         bounces={false}
         enableEmptySections
         dataSource={this.dataSource}
@@ -104,9 +110,9 @@ const styles = {
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.4,
     elevation: 2,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 5,
+    marginLeft: 1,
+    marginRight: 0,
+    marginTop: 1,
     marginBottom: 0,
     padding: 10,
     backgroundColor: '#f9f9f9',

@@ -3,33 +3,41 @@ import { Linking, TouchableOpacity, Text, View, Image } from 'react-native';
 import { Card, CardSection } from './common';
 import { Actions } from 'react-native-router-flux';
 import ModalDropdown from 'react-native-modal-dropdown';
+import ActionSheet from 'react-native-actionsheet';
+import { connect } from 'react-redux';
+import { deleteBusiness } from '../actions';
+const CANCEL_INDEX = 0;
+const DESTRUCTIVE_INDEX = 7;
+const options = ['Cancel', 'View', 'Edit', 'Checkins', 'Favorites', 'Reviews', 'Media', 'Delete'];
+const title = '';
 
-const BusinessItem = ({ business, onSubmit }) => {
+const BusinessItem = ({ business, onSubmit, deleteBusiness }) => {
   const { containerStyle, businessStyle, arrowStyle,iconStyle } = styles;
   const business_id = business.id;
   return (
-    <ModalDropdown
-      dropdownTextStyle={{ fontSize: 18 }}
-      dropdownStyle={{ width: '100%' }}
-      options={['View', 'Edit', 'Checkins', 'Favorites', 'Reviews', 'Media']}
-      onSelect={(index, value) => {
-        const businessURL = 'http://myblabber.com/web/business/' + business_id;
-        if (index == 0) Linking.openURL(businessURL);
-        if (index == 1) Actions.businessForm({ business, onSubmit });
-        if (index == 2) Actions.userList({ business_id, list_type: 'checkins' });
-        if (index == 3) Actions.userList({ business_id, list_type: 'saved-businesses' });
-        if (index == 4) Actions.reviewList({ business_id });
-        if (index == 5) Actions.mediaList({ business_id });
-        return false;
-      }}
-    >
-      <View style={containerStyle}>
-        <Text style={businessStyle}>{business.name}</Text>
-        <View style={arrowStyle}>
-          <Image style={iconStyle} source={require('../assets/right_arrow.png')} />
-        </View>
+    <TouchableOpacity style={containerStyle} onPress={() => this.ActionSheet.show()}>
+      <Text style={businessStyle}>{business.name}</Text>
+      <View style={arrowStyle}>
+        <Image style={iconStyle} source={require('../assets/right_arrow.png')} />
       </View>
-    </ModalDropdown>
+      <ActionSheet
+        ref={o => this.ActionSheet = o}
+        title={title}
+        options={options}
+        cancelButtonIndex={CANCEL_INDEX}
+        destructiveButtonIndex={DESTRUCTIVE_INDEX}
+        onPress={index => {
+          const businessURL = 'http://myblabber.com/web/business/' + business_id;
+          if (index == 1) Linking.openURL(businessURL);
+          if (index == 2) Actions.businessForm({ business, onSubmit });
+          if (index == 3) Actions.userList({ business_id, list_type: 'checkins' });
+          if (index == 4) Actions.userList({ business_id, list_type: 'saved-businesses' });
+          if (index == 5) Actions.reviewList({ business_id });
+          if (index == 6) Actions.mediaList({ business_id });
+          if (index == 7) deleteBusiness(business_id);
+        }}
+      />
+    </TouchableOpacity>
   );
 };
 
@@ -66,4 +74,4 @@ const styles = {
   }
 };
 
-export default BusinessItem;
+export default connect(null, { deleteBusiness })(BusinessItem);

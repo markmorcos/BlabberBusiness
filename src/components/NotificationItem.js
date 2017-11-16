@@ -30,7 +30,7 @@ const NotificationItem = ({ notification }) => {
       if (data.type === 'media') Actions.mediaItem({ media_id });
     }}>
       <View style={containerStyle}>
-        <Image style={imageStyle} source={{ uri: business_data.main_image }} />
+        <Image style={imageStyle} source={{ uri: user_data.profile_photo }} />
         <Text style={[textStyle, notificationStyle]}>
           <Text style={[textStyle, userStyle]} onPress={() => Linking.openURL(userURL)}>{user_data.name}</Text>
           <Text style={textStyle}>{notification.body.slice(user_data.name.length, -business_data.name.length)}</Text>

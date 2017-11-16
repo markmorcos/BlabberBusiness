@@ -51,7 +51,7 @@ class BusinessForm extends Component {
     city: '',
     category: '',
     subcategory: '',
-    operationHours: '',
+    operationHours: 'from 12:00 am to 12:00 am',
     price: 0,
     flags: [],
     interests: [],
@@ -146,7 +146,7 @@ class BusinessForm extends Component {
   }
 
   onPhotoPress() {
-    ImagePicker.showImagePicker({ title: 'Add a photo' }, response => {
+    ImagePicker.showImagePicker({ title: 'Add a photo', quality: 0.7 }, response => {
       if (!response.didCancel) {
         this.onPropChange('media', response);
       }

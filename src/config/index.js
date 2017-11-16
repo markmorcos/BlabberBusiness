@@ -1,0 +1,1 @@
+module.exports.baseURL = 'http://myblabber.com/be-staging/api/';

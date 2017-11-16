@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { propChanged, registerUser } from '../actions';
 import { Actions } from 'react-native-router-flux';
 import ImagePicker from 'react-native-image-picker';
+import Toast from 'react-native-simple-toast';
 
 const { OS } = Platform;
 
@@ -59,9 +60,11 @@ class SignUpForm extends Component {
       mobile,
       email,
       password,
+      confirmPassword,
       registerUser
     } = this.props;
-    registerUser({ media, name, username, mobile, email, password });
+    if (password !== confirmPassword) Toast.show('Password and confirmation must match');
+    else registerUser({ media, name, username, mobile, email, password });
   }
 
   renderButton() {
@@ -92,7 +95,8 @@ class SignUpForm extends Component {
       { name: 'username', placeholder: 'Username' },
       { name: 'mobile', placeholder: 'Mobile' },
       { name: 'email', placeholder: 'Email' },
-      { name: 'password', placeholder: 'Password' }
+      { name: 'password', placeholder: 'Password' },
+      { name: 'confirmPassword', placeholder: 'Confirm Password' }
     ];
     return (
       <KeyboardAvoidingView behavior={OS === 'ios' ? "padding" : null}>
@@ -145,12 +149,12 @@ const styles = {
   },
   containerStyle: {
     width: '100%',
-    marginBottom: 25,
+    marginBottom: 45,
     alignItems: 'center'
   },
   addPhotoStyle: {
     backgroundColor: '#242424',
-    marginBottom: 35,
+    marginBottom: 15,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
@@ -192,10 +196,11 @@ const mapStateToProps = ({ auth }) => {
     mobile,
     email,
     password,
+    confirmPassword,
     error,
     loading
   } = auth;
-  return { media, name, username, mobile, email, password, error, loading };
+  return { media, name, username, mobile, email, password, confirmPassword, error, loading };
 };
 
 export default connect(mapStateToProps, { propChanged, registerUser })(SignUpForm);

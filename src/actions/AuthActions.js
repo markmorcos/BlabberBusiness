@@ -27,10 +27,9 @@ import { Keyboard, Alert } from 'react-native';
 import SInfo from 'react-native-sensitive-info';
 import Toast from 'react-native-simple-toast';
 import DeviceInfo from 'react-native-device-info';
+import { baseURL } from '../config';
 
-const api = axios.create({
-  baseURL: 'http://myblabber.com/be-staging/api/'
-});
+const api = axios.create({ baseURL });
 
 const loginUserSuccess = (dispatch, user) => {
   dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
@@ -67,13 +66,13 @@ export const loginUser = ({ email, password }) => {
   };
 };
 
-export const getLoginState = () => {
+export const getLoginState = (path = 'dashboard') => {
   return async dispatch => {
     dispatch({ type: LOGIN_STATE });
     const user = await SInfo.getItem('user', {});
     if (user !== null && user !== undefined) {
       dispatch({ type: LOGIN_STATE_SUCCESS, payload: JSON.parse(user) });
-      Actions.dashboard({ type: 'replace' });
+      if (path === 'dashboard') Actions.dashboard({ type: 'replace' });
     } else {
       dispatch({ type: LOGIN_STATE_FAIL, payload: 'Get login state failed' });
     }

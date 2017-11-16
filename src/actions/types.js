@@ -35,6 +35,10 @@ export const GET_BUSINESSES = 'get_businesses';
 export const GET_BUSINESSES_SUCCESS = 'get_businesses_success';
 export const GET_BUSINESSES_FAIL = 'get_businesses_fail';
 
+export const DELETE_BUSINESS = 'delete_business';
+export const DELETE_BUSINESS_SUCCESS = 'delete_business_success';
+export const DELETE_BUSINESS_FAIL = 'delete_business_fail';
+
 export const FILTER_BUSINESSES = 'filter_businesses';
 
 // Business Form

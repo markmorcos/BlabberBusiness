@@ -11,11 +11,6 @@ class ProcessScreen extends Component {
 		      style={imageStyle}
 		      source={require('../assets/process_screen.png')}
 		    >
-		    	<Text style={[
-		    		textStyle,
-		    		boldTextStyle
-		    	]}>Your account is being processed.</Text>
-		    	<Text style={textStyle}>We will get back to you within 24 hours</Text>
 		    </Image>
 		  </TouchableHighlight>
 		);

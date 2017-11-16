@@ -31,6 +31,7 @@ class Media extends Component {
     } = styles;
     const { media_id, media } = this.props;
     if (media === null) return <Spinner />;
+    if (media === undefined) return <Text style={{ alignSelf: 'center', padding: 10 }}>Media not found</Text>;
     const { user, business } = media;
     const userURL = 'http://myblabber.com/web/user/' + media.user.id;
     return (
@@ -42,7 +43,6 @@ class Media extends Component {
           />
           <View style={notificationStyle}>
             <Text style={[textStyle, userStyle]} onPress={() => Linking.openURL(userURL)}>{user.name}</Text>
-            <Text style={[textStyle, { fontWeight: 'bold' }]}>{media.rating || ''}/5</Text>
             <Text style={textStyle}>{media.caption || ''}</Text>
           </View>
         </View>

@@ -33,10 +33,9 @@ import { Actions } from 'react-native-router-flux';
 import { Keyboard, Alert } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import SInfo from 'react-native-sensitive-info';
+import { baseURL } from '../config';
 
-const api = axios.create({
-  baseURL: 'http://myblabber.com/be-staging/api/'
-});
+const api = axios.create({ baseURL });
 
 const getCountriesSuccess = (dispatch, countries) => {
   dispatch({ type: GET_COUNTRIES_SUCCESS, payload: countries });
@@ -176,12 +175,14 @@ export const getInterests = () => {
   };
 };
 
-const submitBusinessSuccess = (dispatch, onSubmit) => {
+const submitBusinessSuccess = (dispatch, onSubmit, business_id) => {
   dispatch({ type: SUBMIT_BUSINESS_SUCCESS });
   Keyboard.dismiss();
   onSubmit();
   Actions.pop();
-  Toast.show('The business you just created is in process. Kindly wait for an approval.');
+  if (!business_id) {
+    Toast.show('The business you just created is in process. Kindly wait for an approval.');
+  }
 };
 
 const submitBusinessFail = (dispatch, error) => {
@@ -253,7 +254,7 @@ export const submitBusiness = (
       if (status) {
         return submitBusinessFail(dispatch, errors);
       }
-      return submitBusinessSuccess(dispatch, onSubmit);
+      return submitBusinessSuccess(dispatch, onSubmit, business_id);
     })
     .catch(() => submitBusinessFail(dispatch, 'Business submit failed'));
   };
