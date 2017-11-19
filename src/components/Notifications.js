@@ -3,6 +3,7 @@ import { View, ListView, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import { getNotifications } from '../actions';
 import NotificationItem from './NotificationItem';
+import CommentNotification from './CommentNotification';
 import NavigationBar from './NavigationBar';
 
 class Notifications extends Component {
@@ -23,6 +24,7 @@ class Notifications extends Component {
   }
 
   renderRow(notification) {
+    if (notification.data.type === 'comment') return <CommentNotification notification={notification} />;
     return <NotificationItem notification={notification} />;
   }
 

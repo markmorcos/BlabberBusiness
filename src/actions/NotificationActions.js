@@ -52,9 +52,10 @@ export const getNotifications = () => {
       if (response.data.status) {
         return getNotificationsFail(dispatch, response.data.errors);
       }
+      console.log(response);
       const notifications = response.data.notifications.list.filter(notification => {
         const { type } = notification.data;
-        return type === 'review' || type === 'media' || type === 'checkin' || type === 'favorite';
+        return type === 'review' || type === 'media' || type === 'checkin' || type === 'favorite' || type === 'comment';
       })
       return getNotificationsSuccess(dispatch, notifications);
     })  

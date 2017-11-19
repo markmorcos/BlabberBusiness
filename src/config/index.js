@@ -1,1 +1,1 @@
-module.exports.baseURL = 'http://myblabber.com/be-master/api/';
+module.exports.baseURL = 'http://myblabber.com/be-staging/api/';
