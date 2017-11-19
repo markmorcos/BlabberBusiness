@@ -31,6 +31,7 @@ class Review extends Component {
     } = styles;
     const { review } = this.props;
     if (review === null) return <Spinner />;
+    if (review === undefined) return <Text style={{ alignSelf: 'center', padding: 10 }}>Review not found</Text>;
     const { id, business, user } = review;
     const userURL = 'http://myblabber.com/web/user/' + user.id;
     return (
