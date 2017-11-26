@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -42,11 +43,11 @@
 		8D3D248B932B4B34960B3F61 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 191520EE2CC548789FB31175 /* Roboto.ttf */; };
 		91B137F0A5184F6181288A5A /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76DCC36044E543F2A0D8BFD9 /* libRNDeviceInfo.a */; };
 		A7894AEB94DD49DF9DAA2441 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11BCA33D50D5492CA2D93CDC /* MaterialIcons.ttf */; };
+		B3DFF301568E473A8E401697 /* libRNCarrierInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A42B29F2A3D462D9B731601 /* libRNCarrierInfo.a */; };
 		BC35E2CF822F4357AACD9316 /* libLRDRCTSimpleToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56F922A95DA54CFCB215AF25 /* libLRDRCTSimpleToast.a */; };
 		BC8D5653294F459AA8B97816 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C521BE21D12F4DFF92E4B2DC /* Ionicons.ttf */; };
 		DF03B995AA2449409FE8FDF8 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5E9BDEFB5594168AF47700C /* SimpleLineIcons.ttf */; };
 		F6C551E67E3144E1A41EC1AC /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A26C46EC2404E149EEDE784 /* rubicon-icon-font.ttf */; };
-		B3DFF301568E473A8E401697 /* libRNCarrierInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A42B29F2A3D462D9B731601 /* libRNCarrierInfo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -288,6 +289,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		86ABE0931FC2CB7400C3EF60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45AA25AB60934F5E9935C523 /* RNCarrierInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C2D4DC071AFE5CEB0038CA91;
+			remoteInfo = RNCarrierInfo;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -319,6 +327,7 @@
 		389B03EE12C95F9CA163755F /* libPods-BlabberBusiness.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BlabberBusiness.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E98006CBF8148CE99891636 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		437194E05A4141FF8F9C8317 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		45AA25AB60934F5E9935C523 /* RNCarrierInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCarrierInfo.xcodeproj; path = "../node_modules/react-native-carrier-info/ios/RNCarrierInfo.xcodeproj"; sourceTree = "<group>"; };
 		48350E552D7F4C3B8F60F08E /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		4D557CA41F7A8AC6008ADD92 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		56F922A95DA54CFCB215AF25 /* libLRDRCTSimpleToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLRDRCTSimpleToast.a; sourceTree = "<group>"; };
@@ -329,6 +338,7 @@
 		76DCC36044E543F2A0D8BFD9 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		773C9EBD17144B079351234A /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
+		7A42B29F2A3D462D9B731601 /* libRNCarrierInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCarrierInfo.a; sourceTree = "<group>"; };
 		7BE24A18670B4C80ABA932F6 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
 		7F17613EC220DD95FC91468B /* libPods-BlabberBusinessTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BlabberBusinessTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FE1998463734FD7918F5C76 /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
@@ -348,8 +358,6 @@
 		EB7DA8FBE4F922EC0B3D80B9 /* Pods-BlabberBusinessTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlabberBusinessTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlabberBusinessTests/Pods-BlabberBusinessTests.release.xcconfig"; sourceTree = "<group>"; };
 		FBE8EA6012DA47208261F858 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		FEC05D5DB45D4EA18EF7FBF9 /* RNSensitiveInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSensitiveInfo.xcodeproj; path = "../node_modules/react-native-sensitive-info/ios/RNSensitiveInfo.xcodeproj"; sourceTree = "<group>"; };
-		45AA25AB60934F5E9935C523 /* RNCarrierInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNCarrierInfo.xcodeproj"; path = "../node_modules/react-native-carrier-info/ios/RNCarrierInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		7A42B29F2A3D462D9B731601 /* libRNCarrierInfo.a */ = {isa = PBXFileReference; name = "libRNCarrierInfo.a"; path = "libRNCarrierInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -653,6 +661,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		86ABE0741FC2CB7400C3EF60 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				86ABE0941FC2CB7400C3EF60 /* libRNCarrierInfo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		A02D28747D314560B3CCF066 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -739,6 +755,9 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 4X4C996VRL;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "BlabberBusiness" */;
@@ -808,6 +827,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 86ABE0741FC2CB7400C3EF60 /* Products */;
+					ProjectRef = 45AA25AB60934F5E9935C523 /* RNCarrierInfo.xcodeproj */;
 				},
 				{
 					ProductGroup = 4D9FA8031F7A5B2800CF0A46 /* Products */;
@@ -1070,6 +1093,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		86ABE0941FC2CB7400C3EF60 /* libRNCarrierInfo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCarrierInfo.a;
+			remoteRef = 86ABE0931FC2CB7400C3EF60 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1278,14 +1308,12 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
-					"$(SRCROOT)\..\node_modules\react-native-carrier-info\ios\RNCarrierInfo/**",
+					"$(SRCROOT)..\node_modules\neact-native-carrier-infoiosRNCarrierInfo/**",
 				);
 				INFOPLIST_FILE = BlabberBusinessTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1312,14 +1340,12 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
-					"$(SRCROOT)\..\node_modules\react-native-carrier-info\ios\RNCarrierInfo/**",
+					"$(SRCROOT)..\node_modules\neact-native-carrier-infoiosRNCarrierInfo/**",
 				);
 				INFOPLIST_FILE = BlabberBusinessTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1336,6 +1362,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 4X4C996VRL;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
@@ -1347,7 +1374,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
-					"$(SRCROOT)\..\node_modules\react-native-carrier-info\ios\RNCarrierInfo/**",
+					"$(SRCROOT)..\node_modules\neact-native-carrier-infoiosRNCarrierInfo/**",
 				);
 				INFOPLIST_FILE = BlabberBusiness/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1367,6 +1394,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4X4C996VRL;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
@@ -1378,7 +1406,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
-					"$(SRCROOT)\..\node_modules\react-native-carrier-info\ios\RNCarrierInfo/**",
+					"$(SRCROOT)..\node_modules\neact-native-carrier-infoiosRNCarrierInfo/**",
 				);
 				INFOPLIST_FILE = BlabberBusiness/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
