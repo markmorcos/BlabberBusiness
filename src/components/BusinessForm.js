@@ -212,7 +212,7 @@ class BusinessForm extends Component {
       interests,
       region
     } = this.state;
-    const flagsStr = flags.map(flag => flag.id).join(',');
+    const flagsStr = flags.map(flag => flag.id || flag.value).join(',');
     const interestsStr = interests.map(interest => interest.label).join(',');
     const { latitude, longitude } = region;
     submitBusiness(
